@@ -591,7 +591,7 @@ for (let i = 0; i < geometry.attributes.position.count; i++) {
 
 scene.add(cubeGroup1);
 
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.3); // white color, intensity
+const ambientLight = new THREE.AmbientLight(0xffffff, 1); // white color, intensity
 scene.add(ambientLight);
 
 // const minScale = 1;
@@ -747,6 +747,8 @@ var granimInstance = new Granim({
   }
 });
 
+console.log('helloooooo');
+
 gsap.utils.toArray(['.about_section', '.case_study_parent', '.about_us_section', '.contact_us_section']).forEach((section, index) => {
   gsap.to(window, {
     scrollTrigger: {
@@ -795,7 +797,7 @@ window.addEventListener('mousemove', (event) => {
 
 //Particles
 
-const particlesCount = 1500
+const particlesCount = 2000
 const positions = new Float32Array(particlesCount * 3)
 
 for (let i = 0; i < particlesCount; i++)
@@ -815,6 +817,13 @@ const particlesMaterial = new THREE.PointsMaterial({
 
 const particles = new THREE.Points(particlesGeometry, particlesMaterial)
 scene.add(particles)
+
+
+
+const speeds = new Float32Array(particlesCount);
+for (let i = 0; i < particlesCount; i++) {
+    speeds[i] = Math.random() * 0.02 + 0.01;  // Random speed between 0.01 and 0.03
+}
 /**
  * Sizes
  * 
@@ -933,7 +942,14 @@ for (let i = 0; i < geometry.attributes.position.count; i++) {
     cameraGroup.position.x += (pX  - cameraGroup.position.x) * 2 * deltaTime
     cameraGroup.position.y += (pY - cameraGroup.position.y) * 2 * deltaTime
 
-
+    const positionsArray = particlesGeometry.attributes.position.array;
+    for (let i = 0; i < particlesCount; i++) {
+        positionsArray[i * 3 + 2] -= speeds[i];  // Move the particle towards the camera
+        if (positionsArray[i * 3 + 2] < -10) {  // If the particle has moved past the camera
+            positionsArray[i * 3 + 2] = 10;  // Reset the particle's position to the back
+        }
+    }
+    particlesGeometry.attributes.position.needsUpdate = true;  // Tell Three.js to update the particles
 
     // Update controls
     // controls.update()
