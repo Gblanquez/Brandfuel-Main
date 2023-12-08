@@ -6,14 +6,118 @@ import waterVertexShader from './shaders/background/vertex.glsl'
 import waterFragmentShader from './shaders/background/fragment.glsl'
 import logoVertexShader from './shaders/Logo/vertex.glsl'
 import logoFragmentShader from './shaders/Logo/fragment.glsl'
-import Swiper from 'swiper';
-import 'swiper/css';
+// import { Swiper } from 'swiper';
+import Swiper from 'swiper/bundle';
+// import 'swiper/css';
 import gsap from "gsap";
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SimplexNoise } from 'three/examples/jsm/math/SimplexNoise.js';
 import { Noise } from 'noisejs';
 import Lenis from '@studio-freight/lenis'
 import Granim from 'granim'
+
+gsap.registerPlugin(ScrollTrigger);
+//SWIPER
+
+// Swiper.use([Controller]);
+let swiper;
+
+
+$('.case_wrapper').each(function (index) {
+    swiper = new Swiper($(this).find('.swiper.is-bg')[0],{
+    slidesPerView: 1,
+    speed: 800,
+    cubeEffect: true,
+    direction: 'vertical',
+    // autoplay: {
+    //   delay: 10
+    // },
+    // loop: true,
+    // keyboard: true,
+    // thumbs:{
+    //   swiper: txtSwiper
+    // }
+  });
+
+  const txtSwiper = new Swiper($(this).find('.swiper.is-tx')[0],{
+    slidesPerView: 1,
+    speed: 800,
+    direction: 'vertical',
+  });
+
+
+  swiper.controller.control = txtSwiper;
+
+});
+
+
+
+// Fetch all .case_link_cms elements
+// const allLinks = document.querySelectorAll('.case_link_cms');
+
+// allLinks.forEach((link, i) => {
+//   const tl = gsap.timeline({
+//     scrollTrigger: {
+//       trigger: allLinks[i],
+//       start: 'top bottom',
+//       end: 'bottom top',
+//       scrub: true,
+//       onEnter: () => console.log("It's working"),
+//       onEnterBack: () => console.log("It's working"),
+//       onLeave: () => console.log("It's working"),
+//       markers: true,
+//     },
+//   });
+// });
+// console.log(gsap);
+// console.log(ScrollTrigger);
+
+// const aboutWrap = document.querySelector('.about_section')
+
+// gsap.to(aboutWrap, {
+//   opacity: '30%',
+//   duration: 2,
+//   scrollTrigger:{
+//     trigger: aboutWrap,
+//     scrub: true,
+//     start: 'top center',
+//     end: 'bottom bottom',
+//     markers: true
+//   }
+// })
+// ScrollTrigger.create({
+//   trigger: aboutWrap,
+//   start: 'top center',
+//   end: 'bottom top', // Adjusted to increase the scroll range
+//   onEnter: () => console.log('alo'),
+//   markers: true, // Added to visualize the trigger in the viewport
+// });
+// allLinks.forEach( () => {
+//   gsap.to('.case_component', {
+//     scrollTrigger: {
+//       trigger: link,
+//       start: 'top 70%',
+//       end: 'bottom bottom',
+//       onEnter: () => {
+//         swiper.slideNext();
+//         gsap.to(swiper, { immediateRender: true });
+//         console.log('this is fast');
+//       },
+//       onLeaveBack: () => {
+//         swiper.slidePrev();
+//         gsap.to(swiper, { immediateRender: true });
+//         console.log('haha leaving');
+//       },
+//       markers: true,
+//       scrub: true
+//     }
+//   });
+// })
+
+// $('.case_link_cms:gt(0)').each(function(index, link) {
+  
+// });
+
 
 
 // Debug
@@ -335,7 +439,7 @@ window.addEventListener('resize', () =>
 
 
 
-scene.fog = new THREE.FogExp2( '#FF16A4', 0.02 );
+scene.fog = new THREE.FogExp2( '#FF16A4', 0.1 );
 /**
  * Water
  */
@@ -589,7 +693,7 @@ for (let i = 0; i < geometry.attributes.position.count; i++) {
 
 }
 
-scene.add(cubeGroup1);
+// scene.add(cubeGroup1);
 
 const ambientLight = new THREE.AmbientLight(0xffffff, 1); // white color, intensity
 scene.add(ambientLight);
