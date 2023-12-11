@@ -1,4 +1,9 @@
 import './styles/style.css';
+import workRender from './renders/workRender.js';
+import homeRender from './renders/homeRender.js';
+import workTransition from './transitions/workTransition.js'
+import homeTransition from './transitions/homeTransition.js'
+import { Core } from '@unseenco/taxi'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import GUI from 'lil-gui'
@@ -19,36 +24,47 @@ import Granim from 'granim'
 gsap.registerPlugin(ScrollTrigger);
 //SWIPER
 
-// Swiper.use([Controller]);
-let swiper;
-
-
-$('.case_wrapper').each(function (index) {
-    swiper = new Swiper($(this).find('.swiper.is-bg')[0],{
-    slidesPerView: 1,
-    speed: 800,
-    cubeEffect: true,
-    direction: 'vertical',
-    // autoplay: {
-    //   delay: 10
-    // },
-    // loop: true,
-    // keyboard: true,
-    // thumbs:{
-    //   swiper: txtSwiper
-    // }
-  });
-
-  const txtSwiper = new Swiper($(this).find('.swiper.is-tx')[0],{
-    slidesPerView: 1,
-    speed: 800,
-    direction: 'vertical',
-  });
-
-
-  swiper.controller.control = txtSwiper;
-
+const taxi = new Core({
+	renderers: {
+		work: workRender,
+    home: homeRender,
+	},
+  transitions: {
+    homeTran: homeTransition,
+    workTran: workTransition,
+  }
 });
+
+// Swiper.use([Controller]);
+// let swiper;
+
+
+// $('.case_wrapper').each(function (index) {
+//     swiper = new Swiper($(this).find('.swiper.is-bg')[0],{
+//     slidesPerView: 1,
+//     speed: 800,
+//     cubeEffect: true,
+//     direction: 'vertical',
+//     // autoplay: {
+//     //   delay: 10
+//     // },
+//     // loop: true,
+//     // keyboard: true,
+//     // thumbs:{
+//     //   swiper: txtSwiper
+//     // }
+//   });
+
+//   const txtSwiper = new Swiper($(this).find('.swiper.is-tx')[0],{
+//     slidesPerView: 1,
+//     speed: 800,
+//     direction: 'vertical',
+//   });
+
+
+//   swiper.controller.control = txtSwiper;
+
+// });
 
 
 
@@ -125,107 +141,106 @@ $('.case_wrapper').each(function (index) {
 // const debugObject = {}
 
 let bNoise = new Noise(Math.random());
-gsap.registerPlugin(ScrollTrigger);
 
-let lenis;
-lenis = new Lenis({
-  lerp: 0.1,
-  orientation: 'vertical',
-  infinite: false,
-  wheelMultiplier: 0.7,
-  gestureOrientation: "both",
-  normalizeWheel: true,
-  smoothTouch: false
-});
-function raf(time) {
-  lenis.raf(time);
-  requestAnimationFrame(raf);
-}
-requestAnimationFrame(raf);
+// let lenis;
+// lenis = new Lenis({
+//   lerp: 0.1,
+//   orientation: 'vertical',
+//   infinite: false,
+//   wheelMultiplier: 0.9,
+//   gestureOrientation: "both",
+//   normalizeWheel: true,
+//   smoothTouch: false
+// });
+// function raf(time) {
+//   lenis.raf(time);
+//   requestAnimationFrame(raf);
+// }
+// requestAnimationFrame(raf);
 
-lenis.on('scroll', ScrollTrigger.update)
+// lenis.on('scroll', ScrollTrigger.update)
 
-gsap.ticker.add((time)=>{
-  lenis.raf(time * 1000)
-})
+// gsap.ticker.add((time)=>{
+//   lenis.raf(time * 1000)
+// })
 
-gsap.ticker.lagSmoothing(0)
+// gsap.ticker.lagSmoothing(0)
 
-const imgWrap = document.querySelector('.case_study_img_wrapper')
-const img1 = document.querySelector('.background_img_study.one')
-const div1 = document.querySelector('.case_study_info.one')
-const img2 = document.querySelector('.background_img_study.two')
-const div2 = document.querySelector('.case_study_info.two')
-const img3 = document.querySelector('.background_img_study.three')
-const div3 = document.querySelector('.case_study_info.three')
-const img4 = document.querySelector('.background_img_study.four')
-const div4 = document.querySelector('.case_study_info.four')
-const img5 = document.querySelector('.background_img_study.five')
-const div5 = document.querySelector('.case_study_info.five')
-
-
-let stl = gsap.timeline({
-  scrollTrigger: {
-    trigger: '.case_study_child',
-    start: 'top bottom',
-    end: 'bottom bottom',
-    snap: true,
-  }
-})
-
-stl.from(img1,{
-  y: '120%',
-  scale: 1.1,
-  duration: 1.6
-}, 0.1),
-stl.from(div1,{
-  y: '120%',
-  opacity: 0,
-  duration: 1.6
-}, 0.1),
-stl.from('.case_study_img_wrapper',{
-  scale: 1.2,
-  y: '40%',
-  duration: 1.6,
-  ease: 'expo.out'
-})
+// const imgWrap = document.querySelector('.case_study_img_wrapper')
+// const img1 = document.querySelector('.background_img_study.one')
+// const div1 = document.querySelector('.case_study_info.one')
+// const img2 = document.querySelector('.background_img_study.two')
+// const div2 = document.querySelector('.case_study_info.two')
+// const img3 = document.querySelector('.background_img_study.three')
+// const div3 = document.querySelector('.case_study_info.three')
+// const img4 = document.querySelector('.background_img_study.four')
+// const div4 = document.querySelector('.case_study_info.four')
+// const img5 = document.querySelector('.background_img_study.five')
+// const div5 = document.querySelector('.case_study_info.five')
 
 
-let link2tl = gsap.timeline({
-  scrollTrigger:{
-    trigger: '.link2',
-    start: 'top bottom',
-    end: 'bottom bottom',
-    snap: true
-  }
-})
+// let stl = gsap.timeline({
+//   scrollTrigger: {
+//     trigger: '.case_study_child',
+//     start: 'top bottom',
+//     end: 'bottom bottom',
+//     snap: true,
+//   }
+// })
 
-let link3tl = gsap.timeline({
-  scrollTrigger:{
-    trigger: '.link3',
-    start: 'top bottom',
-    end: 'bottom bottom',
-    snap: true
-  }
-})
+// stl.from(img1,{
+//   y: '120%',
+//   scale: 1.1,
+//   duration: 1.6
+// }, 0.1),
+// stl.from(div1,{
+//   y: '120%',
+//   opacity: 0,
+//   duration: 1.6
+// }, 0.1),
+// stl.from('.case_study_img_wrapper',{
+//   scale: 1.2,
+//   y: '40%',
+//   duration: 1.6,
+//   ease: 'expo.out'
+// })
 
-let link4tl = gsap.timeline({
-  scrollTrigger:{
-    trigger: '.link4',
-    start: 'top bottom',
-    end: 'bottom bottom',
-    snap: true
-  }
-})
 
-let link5tl = gsap.timeline({
-  scrollTrigger:{
-    trigger: '.link5',
-    start: 'top bottom',
-    end: 'bottom bottom',
-    snap: true
-  }
-})
+// let link2tl = gsap.timeline({
+//   scrollTrigger:{
+//     trigger: '.link2',
+//     start: 'top bottom',
+//     end: 'bottom bottom',
+//     snap: true
+//   }
+// })
+
+// let link3tl = gsap.timeline({
+//   scrollTrigger:{
+//     trigger: '.link3',
+//     start: 'top bottom',
+//     end: 'bottom bottom',
+//     snap: true
+//   }
+// })
+
+// let link4tl = gsap.timeline({
+//   scrollTrigger:{
+//     trigger: '.link4',
+//     start: 'top bottom',
+//     end: 'bottom bottom',
+//     snap: true
+//   }
+// })
+
+// let link5tl = gsap.timeline({
+//   scrollTrigger:{
+//     trigger: '.link5',
+//     start: 'top bottom',
+//     end: 'bottom bottom',
+//     snap: true
+//   }
+// })
 
 
 
@@ -534,45 +549,45 @@ function getRadius(angle, time) {
   //Animation of gradient
 
   // Define your color pairs
-const colorPairs = [
-  { depth: '#000000', surface: '#000A0A' },
-  { depth: '#002D30', surface: '#00444A' },
-  { depth: '#2C2135', surface: '#CC480D' }
-];
+// const colorPairs = [
+//   { depth: '#000000', surface: '#000A0A' },
+//   { depth: '#002D30', surface: '#00444A' },
+//   { depth: '#2C2135', surface: '#CC480D' }
+// ];
 
-// Define your triggers
-const triggers = ['.about_section', '.case_study_parent', '.about_us_section'];
+// // Define your triggers
+// const triggers = ['.about_section', '.case_study_parent', '.about_us_section'];
 
-// Create a ScrollTrigger for each section
-triggers.forEach((trigger, index) => {
-  let colors = colorPairs[index];
+// // Create a ScrollTrigger for each section
+// triggers.forEach((trigger, index) => {
+//   let colors = colorPairs[index];
 
-  gsap.to(waterMaterial.uniforms.uDepthColor.value, {
-    scrollTrigger: {
-      trigger: trigger,
-      start: 'top bottom', // when the top of the trigger hits the bottom of the viewport
-      end: 'bottom bottom', // when the bottom of the trigger hits the bottom of the viewport
-      scrub: true, // smooth scrubbing
-    },
-    onUpdate: function() {
-      waterMaterial.uniforms.uDepthColor.value.set(colors.depth);
-      waterMaterial.uniforms.uDepthColor.value.needsUpdate = true;
-    }
-  });
+//   gsap.to(waterMaterial.uniforms.uDepthColor.value, {
+//     scrollTrigger: {
+//       trigger: trigger,
+//       start: 'top bottom', // when the top of the trigger hits the bottom of the viewport
+//       end: 'bottom bottom', // when the bottom of the trigger hits the bottom of the viewport
+//       scrub: true, // smooth scrubbing
+//     },
+//     onUpdate: function() {
+//       waterMaterial.uniforms.uDepthColor.value.set(colors.depth);
+//       waterMaterial.uniforms.uDepthColor.value.needsUpdate = true;
+//     }
+//   });
 
-  gsap.to(waterMaterial.uniforms.uSurfaceColor.value, {
-    scrollTrigger: {
-      trigger: trigger,
-      start: 'top bottom', // when the top of the trigger hits the bottom of the viewport
-      end: 'bottom bottom', // when the bottom of the trigger hits the bottom of the viewport
-      scrub: true, // smooth scrubbing
-    },
-    onUpdate: function() {
-      waterMaterial.uniforms.uSurfaceColor.value.set(colors.surface);
-      waterMaterial.uniforms.uSurfaceColor.value.needsUpdate = true;
-    }
-  });
-});
+//   gsap.to(waterMaterial.uniforms.uSurfaceColor.value, {
+//     scrollTrigger: {
+//       trigger: trigger,
+//       start: 'top bottom', // when the top of the trigger hits the bottom of the viewport
+//       end: 'bottom bottom', // when the bottom of the trigger hits the bottom of the viewport
+//       scrub: true, // smooth scrubbing
+//     },
+//     onUpdate: function() {
+//       waterMaterial.uniforms.uSurfaceColor.value.set(colors.surface);
+//       waterMaterial.uniforms.uSurfaceColor.value.needsUpdate = true;
+//     }
+//   });
+// });
 
 
 // Create a circle shape
@@ -700,184 +715,188 @@ scene.add(ambientLight);
 
 // const minScale = 1;
 // const maxScale = 3;
-const baseScale = 0.5;
-const maxRandomScale = 3;
-const amplitude = 0.3;
-let scaleUpCubeIndex = null;
-let scaleUpStartTime = null;
-const maxDistance = circleRadius ; // Maximum distance a cube can move
-let isShrinking = false; 
+// const baseScale = 0.5;
+// const maxRandomScale = 3;
+// const amplitude = 0.3;
+// let scaleUpCubeIndex = null;
+// let scaleUpStartTime = null;
+// const maxDistance = circleRadius ; // Maximum distance a cube can move
+// let isShrinking = false; 
 
-let btl = gsap.timeline({
-  scrollTrigger:{
-    trigger: '.about_section',
-    start: 'top bottom',
-    end: 'bottom bottom',
-    duration: 1.8,
-    scrub: true
-  }
-},)
+// let btl = gsap.timeline({
+//   scrollTrigger:{
+//     trigger: '.about_section',
+//     start: 'top bottom',
+//     end: 'bottom bottom',
+//     duration: 1.8,
+//     scrub: true
+//   }
+// },)
 
-btl.to(cubeGroup1.scale,{
-  x: 4,
-  y: 4,
-  z: 4
-}, 0.1);
-btl.to(cubeGroup1.rotation,{
-  z: 1,
-  // y: 4,
-  // z: 4
-}, 0.1);
-btl.to(cubeGroup1.position,{
-  x: 2.3
-}, 0.1)
+// btl.to(cubeGroup1.scale,{
+//   x: 4,
+//   y: 4,
+//   z: 4
+// }, 0.1);
+// btl.to(cubeGroup1.rotation,{
+//   z: 1,
+//   // y: 4,
+//   // z: 4
+// }, 0.1);
+// btl.to(cubeGroup1.position,{
+//   x: 2.3
+// }, 0.1)
 
-let btl2 = gsap.timeline({
-  scrollTrigger:{
-    trigger: '.case_study_child',
-    duration: 1.8,
-    scrub: true,
-    start: 'top bottom',
-    end: 'bottom bottom',
+// let btl2 = gsap.timeline({
+//   scrollTrigger:{
+//     trigger: '.case_study_child',
+//     duration: 1.8,
+//     scrub: true,
+//     start: 'top bottom',
+//     end: 'bottom bottom',
 
-  }
-},)
+//   }
+// },)
 
-btl2.to(cubeGroup1.scale,{
-  x: 3,
-  y: 3,
-  z: 3
-}, 0.1);
-btl2.to(cubeGroup1.rotation,{
-  z: 2,
-  // y: 4,
-  // z: 4
-}, 0.1);
-btl2.to(cubeGroup1.position,{
-  x: -5,
-  y:3
-}, 0.1)
+// btl2.to(cubeGroup1.scale,{
+//   x: 3,
+//   y: 3,
+//   z: 3
+// }, 0.1);
+// btl2.to(cubeGroup1.rotation,{
+//   z: 2,
+//   // y: 4,
+//   // z: 4
+// }, 0.1);
+// btl2.to(cubeGroup1.position,{
+//   x: -5,
+//   y:3
+// }, 0.1)
 
-let btl3 = gsap.timeline({
-  scrollTrigger:{
-    trigger: '.about_us_section',
-    duration: 1.8,
-    scrub: true,
-    start: 'top bottom',
-    end: 'bottom bottom',
+// let btl3 = gsap.timeline({
+//   scrollTrigger:{
+//     trigger: '.about_us_section',
+//     duration: 1.8,
+//     scrub: true,
+//     start: 'top bottom',
+//     end: 'bottom bottom',
 
-  }
-},)
+//   }
+// },)
 
-btl3.to(cubeGroup1.scale,{
-  x: 3,
-  y: 3,
-  z: 3
-}, 0.1);
-btl3.to(cubeGroup1.rotation,{
-  z: 3,
-  // y: 4,
-  // z: 4
-}, 0.1);
-btl3.to(cubeGroup1.position,{
-  x: -7,
-  y: 3
-}, 0.1)
+// btl3.to(cubeGroup1.scale,{
+//   x: 3,
+//   y: 3,
+//   z: 3
+// }, 0.1);
+// btl3.to(cubeGroup1.rotation,{
+//   z: 3,
+//   // y: 4,
+//   // z: 4
+// }, 0.1);
+// btl3.to(cubeGroup1.position,{
+//   x: -7,
+//   y: 3
+// }, 0.1)
 
-let btl4 = gsap.timeline({
-  scrollTrigger:{
-    trigger: '.contact_us_section',
-    duration: 1.8,
-    scrub: true,
-    start: 'top bottom',
-    end: 'bottom bottom',
+// let btl4 = gsap.timeline({
+//   scrollTrigger:{
+//     trigger: '.contact_us_section',
+//     duration: 1.8,
+//     scrub: true,
+//     start: 'top bottom',
+//     end: 'bottom bottom',
 
-  }
-})
+//   }
+// })
 
-btl4.to(cubeGroup1.scale,{
-  x: 3,
-  y: 3,
-  z: 3
-}, 0.1);
-btl3.to(cubeGroup1.rotation,{
-  z: 4,
-  // y: 4,
-  // z: 4
-}, 0.1);
-btl4.to(cubeGroup1.position,{
-  x: -3,
-  y: 8
-}, 0.1)
+// btl4.to(cubeGroup1.scale,{
+//   x: 3,
+//   y: 3,
+//   z: 3
+// }, 0.1);
+// btl3.to(cubeGroup1.rotation,{
+//   z: 4,
+//   // y: 4,
+//   // z: 4
+// }, 0.1);
+// btl4.to(cubeGroup1.position,{
+//   x: -3,
+//   y: 8
+// }, 0.1)
 
-var granimInstance = new Granim({
-  element: '#granim-canvas',
-  name: 'interactive-gradient',
-  elToSetClassOn: '.granim-canvas',
-  direction: 'radial',
-  isPausedWhenNotInView: true,
-  stateTransitionSpeed: 200,
-  states : {
-      "default-state": {
-          gradients: [
-              ['#000000', '#000A0A'],
-              ['#1B1B1B', '#0C0D0D'],
-          ],
-          transitionSpeed: 1600
-      },
-      "violet-state": {
-        gradients: [
-          ['#000A0A', '#00444A'],
-          ['#003B40', '#00444A'],
-      ],
-          transitionSpeed: 1600
-      },
-      "orange-state": {
-        gradients: [
-          ['#2C2135', '#753323'],
-          ['#BBC3C4', '#00464B'],
-      ],
-      transitionSpeed: 1600
+// var granimInstance = new Granim({
+//   element: '#granim-canvas',
+//   name: 'interactive-gradient',
+//   elToSetClassOn: '.granim-canvas',
+//   direction: 'diagonal',
+//   isPausedWhenNotInView: true,
+//   stateTransitionSpeed: 300,
+//   states : {
+//       "default-state": {
+//           gradients: [
+//               ['#000000', '#000A0A'],
+//           ],
+//           transitionSpeed: 800
+//       },
+//       "violet-state": {
+//         gradients: [
+//           ['#000A0A', '#00464B'],
+//       ],
+//           transitionSpeed: 400
+//       },
+//       "orange-state": {
+//         gradients: [
+//           ['#2C2135', '#DF4D08'],
+//       ],
+//       transitionSpeed: 400
 
-      },
-      "purple-state": {
-        gradients: [
-          ['#672D98', '#8B38D0'],
-          ['#AA452C', '#43285A'],
-      ],
-      transitionSpeed: 1600
+//       },
+//       "purple-state": {
+//         gradients: [
+//           ['#43285A', '#2C2135'],
+//       ],
+//       transitionSpeed: 400
 
-      }
-  }
-});
+//       }
+//   }
+// });
 
 console.log('helloooooo');
 
-gsap.utils.toArray(['.about_section', '.case_study_parent', '.about_us_section', '.contact_us_section']).forEach((section, index) => {
-  gsap.to(window, {
-    scrollTrigger: {
-      trigger: section,
-      start: 'top bottom', // when the top of the trigger hits the top of the viewport
-      onEnter: () => {
-        switch(index) {
-          case 0:
-            granimInstance.changeState('default-state');
-            break;
-          case 1:
-            granimInstance.changeState('violet-state');
-            break;
-          case 2:
-            granimInstance.changeState('orange-state');
-            break;
-          case 3:
-            granimInstance.changeState('purple-state');
-            break;
-        }
-      }
-    }
-  });
-});
+// gsap.utils.toArray(['.about_section', '.case_component', '.about_us_section', '.contact_us_section']).forEach((section, index) => {
+//   gsap.to(window, {
+//     scrollTrigger: {
+//       trigger: section,
+//       start: 'top bottom',
+//       end: 'bottom bottom',
+//       onEnter: () => changeGradient(index),
+//       onEnterBack: () => changeGradient(index),
+//       onUpdate: ({progress, direction, isActive}) => {
+//         if (isActive) {
+//           changeGradient(index);
+//         }
+//       }
+//     }
+//   });
+// });
 
+// function changeGradient(index) {
+//   switch(index) {
+//     case 0:
+//       granimInstance.changeState('default-state');
+//       break;
+//     case 1:
+//       granimInstance.changeState('violet-state');
+//       break;
+//     case 2:
+//       granimInstance.changeState('orange-state');
+//       break;
+//     case 3:
+//       granimInstance.changeState('purple-state');
+//       break;
+//   }
+// }
 
 
     // Initialize u_mouse as a THREE.Vector2

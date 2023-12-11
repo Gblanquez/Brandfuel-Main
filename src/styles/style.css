@@ -32,7 +32,15 @@ html.lenis {
     height: 100%;
   }
 
-  .case_link_cms{
+  /* .case_link_cms{
     background: lightblue;
     opacity: 30%;
-  }
+  } */
+
+  .case_study_cl_item {
+    grid-column: span 2; /* by default, items take 2 columns */
+}
+
+.case_study_cl_item:nth-child(n+4) {
+    grid-column: span 1; /* starting from the 4th item, items take 1 column */
+}
