@@ -11,6 +11,7 @@ export default class workRenderer extends Renderer {
     // run after the new content has been added to the Taxi container
     document.body.style.overflow = 'hidden';
     window.scrollTo(0, 0)
+
     
   }
 

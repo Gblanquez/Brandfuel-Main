@@ -17,7 +17,7 @@ initialLoad() {
     document.body.style.overflow = 'hidden';
 
     let animation = lottie.loadAnimation({
-        container: document.getElementById('lottie'), // the dom element that will contain the animation
+        container: document.querySelector('.lottie_wrap'), // the dom element that will contain the animation
         renderer: 'svg',
         loop: false,
         autoplay: false,
@@ -36,72 +36,79 @@ initialLoad() {
       // Create a timeline
       let tl = gsap.timeline();
       
-      // Split the text into individual characters
-      let load_h1_split = new SplitType(load_h1, { types: 'chars' });
-      
-      // Start counting to 100% here
-      let counter = { val: 0 };
+// Split the text into individual characters
+let load_h1_split = new SplitType(load_h1, { types: 'chars' });
+
+// Hide the characters initially
+gsap.set(load_h1_split.chars, { opacity: 0 });
+gsap.set(background_img_wrap, { opacity: 0 });
+
+// Start counting to 100% here
+let counter = { val: 0 };
+
 // First animation
 gsap.to(counter, {
-    val: 100,
-    roundProps: "val",
-    ease: customEase, // Use your custom ease
-    onUpdate: function() {
-      // Update the text content
-      load_nmb.textContent = counter.val.toString();
-      animation.goToAndStop(counter.val, true);
-    },
-    duration: 3 // Adjust the duration as needed
-  }).then(() => {
-    // Set the properties right before the second animation starts
-    gsap.set(load_h1_split.chars,{
-        y: '120%',
-        opacity: 0
-    })
-
-    gsap.to(load_nmb,{
-        y: '-120%',
-        duration: 1.4,
-        ease: 'expo.out',
-        opacity: 0
-    })
-
-    // Second animation
-    gsap.fromTo(load_h1_split.chars, {
+  val: 100,
+  roundProps: "val",
+  ease: customEase, // Use your custom ease
+  onUpdate: function() {
+    // Update the text content
+    load_nmb.textContent = counter.val.toString();
+    animation.goToAndStop(counter.val, true);
+  },
+  duration: 3 // Adjust the duration as needed
+}).then(() => {
+  // Set the properties right before the second animation starts
+  gsap.set(load_h1_split.chars,{
       y: '120%',
       opacity: 0
+  })
+
+  gsap.to(load_nmb,{
+      y: '-120%',
+      duration: 1.4,
+      ease: 'expo.out',
+      opacity: 0
+  })
+
+  // Second animation
+  gsap.fromTo(load_h1_split.chars, {
+    y: '120%',
+    opacity: 0
+  }, {
+    y: '0%',
+    opacity: 1, // Make the characters visible again
+    ease: 'expo.out',
+    stagger: 0.02, // Stagger the animation for each character
+    duration: 1.6 // Adjust the duration as needed
+  }).then(() => {
+    // Third animation
+    tl.to(load_h1_split.chars, {
+      y: '-120%',
+      opacity: 0,
+      ease: 'expo.out',
+      stagger: 0.01, // Stagger the animation for each character
+      duration: 1.4 // Adjust the duration as needed
+    }).set(load_parent, {
+      zIndex: -1
+    }).fromTo(background_img_wrap, {
+      y: '120%',
+      borderRadius: '8rem',
+      scale: 0.6,
+      opacity: 0,
     }, {
       y: '0%',
-      opacity: 1,
+      borderRadius: '0rem',
+      scale: 1,
       ease: 'expo.out',
-      stagger: 0.02, // Stagger the animation for each character
-      duration: 1.6 // Adjust the duration as needed
-    }).then(() => {
-      // Third animation
-      tl.to(load_h1_split.chars, {
-        y: '-120%',
-        opacity: 0,
-        ease: 'expo.out',
-        stagger: 0.01, // Stagger the animation for each character
-        duration: 1.4 // Adjust the duration as needed
-      }).set(load_parent, {
-        zIndex: -1
-      }).fromTo(background_img_wrap, {
-        y: '120%',
-        borderRadius: '2rem',
-        scale: 0.8
-      }, {
-        y: '0%',
-        borderRadius: '0rem',
-        scale: 1,
-        ease: 'expo.out',
-        duration: 2.4 // Adjust the duration as needed
-      }).then(() =>{
-        document.body.style.overflow = 'auto';
-        load_parent.style.display = 'none';
-      });
+      opacity: 1,
+      duration: 2.4 // Adjust the duration as needed
+    }).then(() =>{
+      document.body.style.overflow = 'auto';
+      load_parent.style.display = 'none';
     });
   });
+});
 
 
 
@@ -195,6 +202,9 @@ onEnter() {
   onEnterCompleted() {
      // run after the transition.onEnter has fully completed
      document.body.style.overflow = 'auto';
+
+
+
 
 
   }

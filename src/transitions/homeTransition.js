@@ -25,8 +25,6 @@ export default class homeTransition extends Transition {
     console.log('its entering home in transition');
 
 
-
-
     const cmsLink = document.querySelectorAll('[data-a="cms-link"]');
     //  const cmsWrap = document.querySelectorAll('[data-a="cms-v-wrap"]');
     //  const cmsVideo = document.querySelectorAll('[data-a="cms-v"]');
@@ -51,7 +49,7 @@ export default class homeTransition extends Transition {
                 start: 'top bottom',
                 onEnter: () => cmsTl.restart(),
                 onEnterBack: () => cmsTl.restart(),
-                onLeave: () => cmsTl.restart(),
+                // onLeave: () => cmsTl.restart(),
             }
         });
     

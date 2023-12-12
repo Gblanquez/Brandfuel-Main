@@ -22,6 +22,10 @@ export default class workTransition extends Transition {
   onEnter({ to, trigger, done }) {
     // do something else ...
 
+    // Webflow.ready();
+    // Webflow.require('ix2').init();
+    console.log(Webflow);
+
 
     const caseh1 = document.querySelectorAll('[data-a="case-h1"]');
     const texth1 = new SplitType(caseh1, { types: 'words, chars, lines' });
