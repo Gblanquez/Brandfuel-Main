@@ -32,6 +32,9 @@ initialLoad() {
       let load_h1 = document.querySelector('.load-h1');
       let load_parent = document.querySelector('.load_parent');
       let background_img_wrap = document.querySelector('.background_img_wrap');
+      let logoLink = document.querySelector('.navbar_child');
+      let navLines = document.querySelectorAll('[data-a="nav-line"]');
+      let navTxt = document.querySelectorAll('.link_textspan');
       
       // Create a timeline
       let tl = gsap.timeline();
@@ -82,38 +85,112 @@ gsap.to(counter, {
     stagger: 0.02, // Stagger the animation for each character
     duration: 1.6 // Adjust the duration as needed
   }).then(() => {
-    // Third animation
-    tl.to(load_h1_split.chars, {
-      y: '-120%',
-      opacity: 0,
-      ease: 'expo.out',
-      stagger: 0.01, // Stagger the animation for each character
-      duration: 1.4 // Adjust the duration as needed
-    }).set(load_parent, {
-      zIndex: -1
-    }).fromTo(background_img_wrap, {
-      y: '120%',
-      borderRadius: '8rem',
-      scale: 0.6,
-      opacity: 0,
-    }, {
-      y: '0%',
-      borderRadius: '0rem',
-      scale: 1,
-      ease: 'expo.out',
-      opacity: 1,
-      duration: 2.4 // Adjust the duration as needed
-    }).then(() =>{
-      document.body.style.overflow = 'auto';
-      load_parent.style.display = 'none';
-    });
+// Third animation
+tl.to(load_h1_split.chars, {
+    y: '-120%',
+    opacity: 0,
+    ease: 'expo.out',
+    stagger: 0.01, // Stagger the animation for each character
+    duration: 1.4 // Adjust the duration as needed
+  }).set(load_parent, {
+    zIndex: -1
+  }).set(background_img_wrap, { // Set the initial state of the background
+    display: 'block',
+    y: '120%',
+    borderRadius: '8rem',
+    scale: 0.6,
+    opacity: 0,
+  }).to(background_img_wrap, {
+    y: '0%',
+    borderRadius: '0rem',
+    scale: 1,
+    ease: 'expo.out',
+    opacity: 1,
+    duration: 1.8 // Adjust the duration as needed
+  }, "+=0.1") // Start this animation 0.1 seconds after the previous one
+  .fromTo(navLines,{
+    width: '0%',
+    opacity: 0,
+    ease: 'expo.out',
+  },{
+    width: '100%',
+    ease: 'expo.out',
+    opacity: 1,
+    duration: 0.8,
+    stagger:{
+      each: 0.2
+    }
+  }, "+=0") // Start this animation 0.1 seconds after the previous one
+  .from(logoLink,{
+    y: '120%',
+    opacity: 0,
+    ease: 'expo.out',
+    duration: 0.8
+  }, "+=0") // Start this animation 0.1 seconds after the previous one
+  .from(navTxt,{
+    y: '120%',
+    opacity: 0,
+    ease: 'expo.out',
+    duration: 0.8,
+    stagger:{
+      each: 0.02
+    }
+  }, "+=0") // Start this animation 0.1 seconds after the previous one
+  .then(() =>{
+    document.body.style.overflow = 'auto';
+    load_parent.style.display = 'none';
   });
+  });
+});
+
+
+
+//Animate lottie Blue
+
+let animation2 = lottie.loadAnimation({
+    container: document.querySelector('.cms_lottie_wrap'), // the dom element that will contain the animation
+    renderer: 'svg',
+    loop: false,
+    autoplay: false,
+    path: 'https://uploads-ssl.webflow.com/654ffd6810a99fe2eda01c9b/6573486260cf3c6846f64f76_BFLottieblueSimple02%20(1).json' // the path to the animation json
+  });
+
+  ScrollTrigger.create({
+    trigger: '.cms_case_study',
+    start: 'top bottom',
+    end: 'bottom top',
+    scrub: true,
+    onUpdate: self => {
+        let progress = self.progress;
+        let totalFrames = animation2.totalFrames;
+        let frame = Math.round(totalFrames * progress);
+        animation2.goToAndStop(frame, true);
+    }
+});
+
+
+ScrollTrigger.create({
+    trigger: '.about_section',
+    start: 'top bottom',
+    end: 'bottom top',
+    onEnter: () => animation3.play(),
+    onLeave: () => animation3.stop(),
+    onEnterBack: () => animation3.play(),
+    onLeaveBack: () => animation3.stop()
 });
 
 
 
 
 
+// //Animate Lottie Red
+// let animation3 = lottie.loadAnimation({
+//     container: document.querySelector('.img_about_p'), // the dom element that will contain the animation
+//     renderer: 'svg',
+//     loop: true,
+//     autoplay: false,
+//     path: 'https://uploads-ssl.webflow.com/654ffd6810a99fe2eda01c9b/6572f6684681cf023dba4395_BFLottiered01.json' // the path to the animation json
+// });
 
 
 
@@ -146,7 +223,7 @@ gsap.to(counter, {
                 trigger: link,
                 start: 'top bottom',
                 onEnter: () => cmsTl.restart(),
-                onEnterBack: () => cmsTl.restart(),
+                // onEnterBack: () => cmsTl.restart(),
                 // onLeave: () => cmsTl.restart(),
             }
         });
@@ -196,6 +273,10 @@ onEnter() {
     // run after the new content has been added to the Taxi container
     document.body.style.overflow = 'hidden';
     window.scrollTo(0, 0)
+
+    window.Webflow && window.Webflow.destroy();
+    window.Webflow && window.Webflow.ready();
+    window.Webflow && window.Webflow.require('ix2').init();
     console.log('its home');
   }
 
