@@ -44,3 +44,23 @@ html.lenis {
 .case_study_cl_item:nth-child(n+4) {
     grid-column: span 1; /* starting from the 4th item, items take 1 column */
 }
+
+
+.case_study_cl_item:nth-child(1) {
+  margin-left: -15vw;
+}
+
+
+
+.case_study_cl_item:nth-child(2) .cms_link{
+  justify-self: end;
+  padding-right: rem;
+}
+
+.case_study_cl_item:nth-child(3) {
+  margin-left: -15vw;
+}
+
+.load_parent {
+  display: flex;
+}

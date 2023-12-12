@@ -137,8 +137,8 @@ const taxi = new Core({
 
 
 // Debug
-// const gui = new GUI({ width: 340 })
-// const debugObject = {}
+const gui = new GUI({ width: 340 })
+const debugObject = {}
 
 let bNoise = new Noise(Math.random());
 
@@ -483,20 +483,20 @@ const waterMaterial = new THREE.ShaderMaterial({
         screenWidth: { value: window.innerWidth },
         
         uBigWavesElevation: { value: 0.2 },
-        uBigWavesFrequency: { value: new THREE.Vector2(4, 1.5) },
-        uBigWavesSpeed: { value: 0.75 },
+        uBigWavesFrequency: { value: new THREE.Vector2(0.511, 0.433) },
+        uBigWavesSpeed: { value: 0.328 },
 
-        uSmallWavesElevation: { value: 0.15 },
-        uSmallWavesFrequency: { value: 3 },
+        uSmallWavesElevation: { value: 0.043 },
+        uSmallWavesFrequency: { value: 1.764 },
         uSmallWavesSpeed: { value: 0.2 },
-        uSmallIterations: { value: 4 },
+        uSmallIterations: { value: 1 },
         u_mouseEffect: { value: new THREE.Vector2(0, 0) }, // Add this line for u_mouseEffect uniform
         u_mouseStrength: { value: 5.0 },
 
         uDepthColor: { value: new THREE.Color('green') },
         uSurfaceColor: { value: new THREE.Color('blue') },
-        uColorOffset: { value: 0.08 },
-        uColorMultiplier: { value: 5 }
+        uColorOffset: { value: 0.152 },
+        uColorMultiplier: { value: 2.831 }
     }
 })
 
@@ -509,22 +509,65 @@ bgGroup.position.z = -4
 // bgGroup.rotation.x = - Math.PI * 0.3
 
 // bg.scale.set(sizes.width, sizes.height, 1);
-// scene.add(bgGroup)
+scene.add(bgGroup)
 
 
-// gui.add(waterMaterial.uniforms.uBigWavesElevation, 'value').min(0).max(1).step(0.001).name('uBigWavesElevation')
-// gui.add(waterMaterial.uniforms.uBigWavesFrequency.value, 'x').min(0).max(10).step(0.001).name('uBigWavesFrequencyX')
-// gui.add(waterMaterial.uniforms.uBigWavesFrequency.value, 'y').min(0).max(10).step(0.001).name('uBigWavesFrequencyY')
-// gui.add(waterMaterial.uniforms.uBigWavesSpeed, 'value').min(0).max(4).step(0.001).name('uBigWavesSpeed')
+
+// Define your color pairs
+const colorPairs = [
+  { depth: '#000102', surface: '#00464B' },
+  { depth: '#2C2135', surface: '#BD4511' },
+  { depth: '#2C2135', surface: '#5B267E' }
+];
+
+// Define your triggers
+const triggers = ['.cms_case_study', '.about_us_section', '.contact_us_section'];
+
+// Create a ScrollTrigger for each section
+triggers.forEach((trigger, index) => {
+  let colors = colorPairs[index];
+
+  gsap.to(waterMaterial.uniforms.uDepthColor.value, {
+    scrollTrigger: {
+      trigger: trigger,
+      start: 'top bottom', // when the top of the trigger hits the bottom of the viewport
+      end: 'bottom bottom', // when the bottom of the trigger hits the bottom of the viewport
+      scrub: true, // smooth scrubbing
+    },
+    onUpdate: function() {
+      waterMaterial.uniforms.uDepthColor.value.set(colors.depth);
+      waterMaterial.uniforms.uDepthColor.value.needsUpdate = true;
+    }
+  });
+
+  gsap.to(waterMaterial.uniforms.uSurfaceColor.value, {
+    scrollTrigger: {
+      trigger: trigger,
+      start: 'top bottom', // when the top of the trigger hits the bottom of the viewport
+      end: 'bottom bottom', // when the bottom of the trigger hits the bottom of the viewport
+      scrub: true, // smooth scrubbing
+    },
+    onUpdate: function() {
+      waterMaterial.uniforms.uSurfaceColor.value.set(colors.surface);
+      waterMaterial.uniforms.uSurfaceColor.value.needsUpdate = true;
+    }
+  });
+});
 
 
-// gui.add(waterMaterial.uniforms.uSmallWavesElevation, 'value').min(0).max(1).step(0.001).name('uSmallWavesElevation')
-// gui.add(waterMaterial.uniforms.uSmallWavesFrequency, 'value').min(0).max(30).step(0.001).name('uSmallWavesFrequency')
-// gui.add(waterMaterial.uniforms.uSmallWavesSpeed, 'value').min(0).max(4).step(0.001).name('uSmallWavesSpeed')
-// gui.add(waterMaterial.uniforms.uSmallIterations, 'value').min(0).max(5).step(1).name('uSmallIterations')
+gui.add(waterMaterial.uniforms.uBigWavesElevation, 'value').min(0).max(1).step(0.001).name('uBigWavesElevation')
+gui.add(waterMaterial.uniforms.uBigWavesFrequency.value, 'x').min(0).max(10).step(0.001).name('uBigWavesFrequencyX')
+gui.add(waterMaterial.uniforms.uBigWavesFrequency.value, 'y').min(0).max(10).step(0.001).name('uBigWavesFrequencyY')
+gui.add(waterMaterial.uniforms.uBigWavesSpeed, 'value').min(0).max(4).step(0.001).name('uBigWavesSpeed')
 
-// gui.add(waterMaterial.uniforms.uColorOffset, 'value').min(0).max(1).step(0.001).name('uColorOffset')
-// gui.add(waterMaterial.uniforms.uColorMultiplier, 'value').min(0).max(10).step(0.001).name('uColorMultiplier')
+
+gui.add(waterMaterial.uniforms.uSmallWavesElevation, 'value').min(0).max(1).step(0.001).name('uSmallWavesElevation')
+gui.add(waterMaterial.uniforms.uSmallWavesFrequency, 'value').min(0).max(30).step(0.001).name('uSmallWavesFrequency')
+gui.add(waterMaterial.uniforms.uSmallWavesSpeed, 'value').min(0).max(4).step(0.001).name('uSmallWavesSpeed')
+gui.add(waterMaterial.uniforms.uSmallIterations, 'value').min(0).max(5).step(1).name('uSmallIterations')
+
+gui.add(waterMaterial.uniforms.uColorOffset, 'value').min(0).max(1).step(0.001).name('uColorOffset')
+gui.add(waterMaterial.uniforms.uColorMultiplier, 'value').min(0).max(10).step(0.001).name('uColorMultiplier')
 
 const wNoise = new SimplexNoise();
 function getRadius(angle, time) {
