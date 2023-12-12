@@ -459,7 +459,7 @@ scene.fog = new THREE.FogExp2( '#FF16A4', 0.1 );
  * Water
  */
 // Geometry
-const waterGeometry = new THREE.PlaneGeometry( 30, 30, 100, 100 );
+const waterGeometry = new THREE.PlaneGeometry( 50, 50, 200, 200 );
 
 
 
@@ -496,7 +496,7 @@ const waterMaterial = new THREE.ShaderMaterial({
 
 
         uGradientColor1: { value: new THREE.Color('#00464B') },
-        uGradientColor2: { value: new THREE.Color('blue') },
+        uGradientColor2: { value: new THREE.Color('#00464B') },
         uGradientColor3: { value: new THREE.Color('#001F21') },
         uGradientPosition1: { value: 0.3 }, // position of the first color stop
         uGradientPosition2: { value: 2.0 }, // position of the second color stop
@@ -525,9 +525,9 @@ scene.add(bgGroup)
 
 // Define your color pairs
 const colorPairs = [
-  { color1: '#000102', color2: '#00464B', color3: '#2C2135' },
+  { color1: '#000102', color2: '#2C2135', color3: '#00464B' },
   { color1: '#2C2135', color2: '#BD4511', color3: '#5B267E' },
-  { color1: '#2C2135', color2: '#5B267E', color3: '#000102' }
+  { color1: '#2C2135', color2: '#000102', color3: '#5B267E' }
 ];
 
 // Define your triggers
