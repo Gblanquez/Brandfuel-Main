@@ -26,12 +26,6 @@ export default class homeTransition extends Transition {
 
 
 
-    Webflow.destroy();
-    Webflow.ready();
-    Webflow.require('ix2').init();
-    console.log(Webflow);
-
-
     const cmsLink = document.querySelectorAll('[data-a="cms-link"]');
     //  const cmsWrap = document.querySelectorAll('[data-a="cms-v-wrap"]');
     //  const cmsVideo = document.querySelectorAll('[data-a="cms-v"]');
