@@ -24,10 +24,6 @@ export default class homeTransition extends Transition {
 
     console.log('its entering home in transition');
 
-    window.Webflow && window.Webflow.destroy();
-    window.Webflow && window.Webflow.ready();
-    window.Webflow && window.Webflow.require('ix2').init();
-
 
 
     const cmsLink = document.querySelectorAll('[data-a="cms-link"]');

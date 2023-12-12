@@ -274,9 +274,7 @@ onEnter() {
     document.body.style.overflow = 'hidden';
     window.scrollTo(0, 0)
 
-    window.Webflow && window.Webflow.destroy();
-    window.Webflow && window.Webflow.ready();
-    window.Webflow && window.Webflow.require('ix2').init();
+
     console.log('its home');
   }
 
@@ -284,9 +282,9 @@ onEnter() {
      // run after the transition.onEnter has fully completed
      document.body.style.overflow = 'auto';
 
-
-
-
+     window.Webflow && window.Webflow.destroy();
+     window.Webflow && window.Webflow.ready();
+     window.Webflow && window.Webflow.require('ix2').init();
 
   }
 
@@ -298,5 +296,9 @@ onEnter() {
 
   onLeaveCompleted() {
     // run after the transition.onleave has fully completed
+
+    window.Webflow && window.Webflow.destroy();
+    window.Webflow && window.Webflow.ready();
+    window.Webflow && window.Webflow.require('ix2').init();
   }
 }
