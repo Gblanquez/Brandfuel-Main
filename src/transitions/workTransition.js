@@ -21,9 +21,9 @@ export default class workTransition extends Transition {
    */
   onEnter({ to, trigger, done }) {
     // do something else ...
-
-    // Webflow.ready();
-    // Webflow.require('ix2').init();
+    Webflow.destroy();
+    Webflow.ready();
+    Webflow.require('ix2').init();
     console.log(Webflow);
 
 
