@@ -98,6 +98,7 @@ gsap.to(counter, {
         duration: 2.4 // Adjust the duration as needed
       }).then(() =>{
         document.body.style.overflow = 'auto';
+        load_parent.style.display = 'none';
       });
     });
   });
@@ -139,7 +140,7 @@ gsap.to(counter, {
                 start: 'top bottom',
                 onEnter: () => cmsTl.restart(),
                 onEnterBack: () => cmsTl.restart(),
-                onLeave: () => cmsTl.restart(),
+                // onLeave: () => cmsTl.restart(),
             }
         });
     
