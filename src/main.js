@@ -459,7 +459,7 @@ scene.fog = new THREE.FogExp2( '#FF16A4', 0.1 );
  * Water
  */
 // Geometry
-const waterGeometry = new THREE.PlaneGeometry( sizes.width, sizes.height, 100, 100 );
+const waterGeometry = new THREE.PlaneGeometry( 30, 30, 100, 100 );
 
 
 
@@ -494,6 +494,15 @@ const waterMaterial = new THREE.ShaderMaterial({
         u_mouseEffect: { value: new THREE.Vector2(0, 0) }, // Add this line for u_mouseEffect uniform
         u_mouseStrength: { value: 5.0 },
 
+
+        uGradientColor1: { value: new THREE.Color('#00464B') },
+        uGradientColor2: { value: new THREE.Color('blue') },
+        uGradientColor3: { value: new THREE.Color('#001F21') },
+        uGradientPosition1: { value: 0.3 }, // position of the first color stop
+        uGradientPosition2: { value: 2.0 }, // position of the second color stop
+
+
+
         uDepthColor: { value: new THREE.Color('green') },
         uSurfaceColor: { value: new THREE.Color('blue') },
         uColorOffset: { value: 0.152 },
@@ -516,9 +525,9 @@ scene.add(bgGroup)
 
 // Define your color pairs
 const colorPairs = [
-  { depth: '#000102', surface: '#00464B' },
-  { depth: '#2C2135', surface: '#BD4511' },
-  { depth: '#2C2135', surface: '#5B267E' }
+  { color1: '#000102', color2: '#00464B', color3: '#2C2135' },
+  { color1: '#2C2135', color2: '#BD4511', color3: '#5B267E' },
+  { color1: '#2C2135', color2: '#5B267E', color3: '#000102' }
 ];
 
 // Define your triggers
@@ -528,29 +537,42 @@ const triggers = ['.cms_case_study', '.about_us_section', '.contact_us_section']
 triggers.forEach((trigger, index) => {
   let colors = colorPairs[index];
 
-  gsap.to(waterMaterial.uniforms.uDepthColor.value, {
+  gsap.to(waterMaterial.uniforms.uGradientColor1.value, {
     scrollTrigger: {
       trigger: trigger,
-      start: 'top bottom', // when the top of the trigger hits the bottom of the viewport
-      end: 'bottom bottom', // when the bottom of the trigger hits the bottom of the viewport
-      scrub: true, // smooth scrubbing
+      start: 'top bottom',
+      end: 'bottom bottom',
+      scrub: true,
     },
     onUpdate: function() {
-      waterMaterial.uniforms.uDepthColor.value.set(colors.depth);
-      waterMaterial.uniforms.uDepthColor.value.needsUpdate = true;
+      waterMaterial.uniforms.uGradientColor1.value.set(colors.color1);
+      waterMaterial.uniforms.uGradientColor1.value.needsUpdate = true;
     }
   });
 
-  gsap.to(waterMaterial.uniforms.uSurfaceColor.value, {
+  gsap.to(waterMaterial.uniforms.uGradientColor2.value, {
     scrollTrigger: {
       trigger: trigger,
-      start: 'top bottom', // when the top of the trigger hits the bottom of the viewport
-      end: 'bottom bottom', // when the bottom of the trigger hits the bottom of the viewport
-      scrub: true, // smooth scrubbing
+      start: 'top bottom',
+      end: 'bottom bottom',
+      scrub: true,
     },
     onUpdate: function() {
-      waterMaterial.uniforms.uSurfaceColor.value.set(colors.surface);
-      waterMaterial.uniforms.uSurfaceColor.value.needsUpdate = true;
+      waterMaterial.uniforms.uGradientColor2.value.set(colors.color2);
+      waterMaterial.uniforms.uGradientColor2.value.needsUpdate = true;
+    }
+  });
+
+  gsap.to(waterMaterial.uniforms.uGradientColor3.value, {
+    scrollTrigger: {
+      trigger: trigger,
+      start: 'top bottom',
+      end: 'bottom bottom',
+      scrub: true,
+    },
+    onUpdate: function() {
+      waterMaterial.uniforms.uGradientColor3.value.set(colors.color3);
+      waterMaterial.uniforms.uGradientColor3.value.needsUpdate = true;
     }
   });
 });
