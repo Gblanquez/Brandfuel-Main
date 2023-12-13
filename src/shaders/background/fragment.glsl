@@ -9,22 +9,20 @@ uniform float uColorOffset;
 uniform float uColorMultiplier;
 uniform float screenHeight;
 uniform float screenWidth;
+uniform float uGradientAngle;
 
 varying float vElevation;
 
 void main()
 {
-    // Normalize the coordinates
-    float x = gl_FragCoord.x / screenWidth;
-    float y = gl_FragCoord.y / screenHeight;
+    // Calculate the position based on the angle
+    float pos = gl_FragCoord.x * cos(uGradientAngle) + gl_FragCoord.y * sin(uGradientAngle);
 
-    // Calculate the mix strength based on the normalized position of the vertex
-    float mixStrength = (vElevation + uColorOffset) * uColorMultiplier + x / y;
+    // Normalize the position
+    float normalizedPos = pos / (screenWidth * cos(uGradientAngle) + screenHeight * sin(uGradientAngle));
 
     // Calculate the gradient color
-    vec3 color1 = mix(uGradientColor1, uGradientColor2, smoothstep(0.0, uGradientPosition1, mixStrength));
-    vec3 color2 = mix(uGradientColor2, uGradientColor3, smoothstep(uGradientPosition1, uGradientPosition2, mixStrength));
-    vec3 color = mix(color1, color2, step(uGradientPosition1, mixStrength));
+    vec3 color = mix(uGradientColor1, uGradientColor2, normalizedPos);
 
     gl_FragColor = vec4(color, 1.0);
 }

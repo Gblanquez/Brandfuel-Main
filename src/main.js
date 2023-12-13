@@ -132,6 +132,8 @@ const waterMaterial = new THREE.ShaderMaterial({
         uGradientPosition2: { value: 2.0 }, // position of the second color stop
 
 
+        uGradientAngle: { value: Math.PI / 4 * 0.3 },
+
 
         uDepthColor: { value: new THREE.Color('green') },
         uSurfaceColor: { value: new THREE.Color('blue') },
@@ -156,8 +158,8 @@ scene.add(bgGroup)
 // Define your color pairs
 const colorPairs = [
   { color1: '#000102', color2: '#2C2135', color3: '#00464B' },
-  { color1: '#2C2135', color2: '#BD4511', color3: '#5B267E' },
-  { color1: '#2C2135', color2: '#000102', color3: '#5B267E' }
+  { color1: '#2C2135', color2: '#BD4511', color3: '#00464B' },
+  { color1: '#5B267E', color2: '#BD4511', color3: '#BD4511' }
 ];
 
 // Define your triggers
