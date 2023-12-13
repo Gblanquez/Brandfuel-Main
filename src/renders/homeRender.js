@@ -296,9 +296,5 @@ onEnter() {
 
   onLeaveCompleted() {
     // run after the transition.onleave has fully completed
-
-    window.Webflow && window.Webflow.destroy();
-    window.Webflow && window.Webflow.ready();
-    window.Webflow && window.Webflow.require('ix2').init();
   }
 }
