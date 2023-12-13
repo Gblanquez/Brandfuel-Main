@@ -282,8 +282,8 @@ onEnter() {
      // run after the transition.onEnter has fully completed
      document.body.style.overflow = 'auto';
 
-     window.Webflow && window.Webflow.destroy();
-     window.Webflow && window.Webflow.ready();
+    //  window.Webflow && window.Webflow.destroy();
+    //  window.Webflow && window.Webflow.ready();
     //  window.Webflow && window.Webflow.require('ix2').init();
 
   }
@@ -299,6 +299,6 @@ onEnter() {
 
     window.Webflow && window.Webflow.destroy();
     window.Webflow && window.Webflow.ready();
-    // window.Webflow && window.Webflow.require('ix2').init();
+    window.Webflow && window.Webflow.require('ix2').init();
   }
 }
