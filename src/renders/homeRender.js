@@ -147,37 +147,37 @@ tl.to(load_h1_split.chars, {
 
 //Animate lottie Blue
 
-let animation2 = lottie.loadAnimation({
-    container: document.querySelector('.cms_lottie_wrap'), // the dom element that will contain the animation
-    renderer: 'svg',
-    loop: false,
-    autoplay: false,
-    path: 'https://uploads-ssl.webflow.com/654ffd6810a99fe2eda01c9b/6573486260cf3c6846f64f76_BFLottieblueSimple02%20(1).json' // the path to the animation json
-  });
+// let animation2 = lottie.loadAnimation({
+//     container: document.querySelector('.cms_lottie_wrap'), // the dom element that will contain the animation
+//     renderer: 'svg',
+//     loop: false,
+//     autoplay: false,
+//     path: 'https://uploads-ssl.webflow.com/654ffd6810a99fe2eda01c9b/6573486260cf3c6846f64f76_BFLottieblueSimple02%20(1).json' // the path to the animation json
+//   });
 
-  ScrollTrigger.create({
-    trigger: '.cms_case_study',
-    start: 'top bottom',
-    end: 'bottom top',
-    scrub: true,
-    onUpdate: self => {
-        let progress = self.progress;
-        let totalFrames = animation2.totalFrames;
-        let frame = Math.round(totalFrames * progress);
-        animation2.goToAndStop(frame, true);
-    }
-});
+//   ScrollTrigger.create({
+//     trigger: '.cms_case_study',
+//     start: 'top bottom',
+//     end: 'bottom top',
+//     scrub: true,
+//     onUpdate: self => {
+//         let progress = self.progress;
+//         let totalFrames = animation2.totalFrames;
+//         let frame = Math.round(totalFrames * progress);
+//         animation2.goToAndStop(frame, true);
+//     }
+// });
 
 
-ScrollTrigger.create({
-    trigger: '.about_section',
-    start: 'top bottom',
-    end: 'bottom top',
-    onEnter: () => animation3.play(),
-    onLeave: () => animation3.stop(),
-    onEnterBack: () => animation3.play(),
-    onLeaveBack: () => animation3.stop()
-});
+// ScrollTrigger.create({
+//     trigger: '.about_section',
+//     start: 'top bottom',
+//     end: 'bottom top',
+//     onEnter: () => animation3.play(),
+//     onLeave: () => animation3.stop(),
+//     onEnterBack: () => animation3.play(),
+//     onLeaveBack: () => animation3.stop()
+// });
 
 
 
