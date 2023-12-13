@@ -14,6 +14,7 @@ initialLoad() {
         // run code that should only happen once for your site
 
     console.log('this is the initial load');
+    window.scrollTo(0, 0)
     document.body.style.overflow = 'hidden';
 
     let animation = lottie.loadAnimation({
