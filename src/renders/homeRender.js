@@ -5,6 +5,7 @@ import Lenis from '@studio-freight/lenis'
 import SplitType from 'split-type'
 import { CustomEase } from "gsap/CustomEase";
 import lottie from 'lottie-web';
+import * as THREE from 'three'
 gsap.registerPlugin(CustomEase)
 
 
@@ -12,8 +13,11 @@ export default class homeRenderer extends Renderer {
 
 initialLoad() {
         // run code that should only happen once for your site
+const allVideos = document.querySelectorAll('.cms-video')
+console.log(allVideos);
+    
 
-    console.log('this is the initial load');
+
     // window.scrollTo(0, 0)
     // document.body.style.overflow = 'hidden';
 
