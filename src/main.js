@@ -40,54 +40,54 @@ gsap.registerPlugin(ScrollTrigger);
 // });
 
 
-var granimInstance = new Granim({
-  element: '#granim-canvas',
-  direction: 'diagonal',
-  isPausedWhenNotInView: true,
-  states : {
-      "default-state": {
-          gradients: [
-              ['#000000', '#000000'], // black and gray
-          ]
-      },
-      "second-state": {
-          gradients: [
-              ['#000000', '#00464B'], // black and green
-          ]
-      },
-      "third-state": {
-          gradients: [
-              ['#5B267E', '#BD4511'], // purple and orange
-          ]
-      },
-      "last-state": {
-          gradients: [
-              ['#BD4511', '#5B267E'], // orange and purple
-          ]
-      }
-  }
-});
+// var granimInstance = new Granim({
+//   element: '#granim-canvas',
+//   direction: 'diagonal',
+//   isPausedWhenNotInView: true,
+//   states : {
+//       "default-state": {
+//           gradients: [
+//               ['#000000', '#000000'], // black and gray
+//           ]
+//       },
+//       "second-state": {
+//           gradients: [
+//               ['#000000', '#00464B'], // black and green
+//           ]
+//       },
+//       "third-state": {
+//           gradients: [
+//               ['#5B267E', '#BD4511'], // purple and orange
+//           ]
+//       },
+//       "last-state": {
+//           gradients: [
+//               ['#BD4511', '#5B267E'], // orange and purple
+//           ]
+//       }
+//   }
+// });
 
-const triggers = ['.about_section', '.cms_case_child', '.about_us_section', '.contact_us_section'];
-const states = ['default-state', 'second-state', 'third-state', 'last-state'];
+// const triggers = ['.about_section', '.cms_case_child', '.about_us_section', '.contact_us_section'];
+// const states = ['default-state', 'second-state', 'third-state', 'last-state'];
 
-triggers.forEach((trigger, index) => {
-  gsap.timeline({
-    scrollTrigger: {
-      trigger: trigger,
-      start: "top+=300 center",
-      end: "bottom+=300 center",
-      onEnter: () => granimInstance.changeState(states[index]),
-      onLeaveBack: () => {
-        if (index !== 0) {
-          const previousIndex = index - 1;
-          granimInstance.changeState(states[previousIndex]);
-        }
-      },
-      scrub: true
-    }
-  });
-});
+// triggers.forEach((trigger, index) => {
+//   gsap.timeline({
+//     scrollTrigger: {
+//       trigger: trigger,
+//       start: "top+=300 center",
+//       end: "bottom+=300 center",
+//       onEnter: () => granimInstance.changeState(states[index]),
+//       onLeaveBack: () => {
+//         if (index !== 0) {
+//           const previousIndex = index - 1;
+//           granimInstance.changeState(states[previousIndex]);
+//         }
+//       },
+//       scrub: true
+//     }
+//   });
+// });
 
 
 
