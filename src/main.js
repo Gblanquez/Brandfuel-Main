@@ -68,30 +68,7 @@ var granimInstance = new Granim({
   }
 });
 
-// const triggers = ['.about_section', '.cms_case_child', '.about_us_section', '.contact_us_section'];
-// const states = ['default-state', 'second-state', 'third-state', 'last-state'];
-
-// triggers.forEach((trigger, index) => {
-//   gsap.timeline({
-//     scrollTrigger: {
-//       trigger: trigger,
-//       start: "top+=300 center",
-//       end: "bottom+=300 center",
-//       onEnter: () => granimInstance.changeState(states[index]),
-//       onLeaveBack: () => {
-//         if (index !== 0) {
-//           const previousIndex = index - 1;
-//           granimInstance.changeState(states[previousIndex]);
-//         }
-//       },
-//       scrub: true
-//     }
-//   });
-// });
-
-
-
-const triggers = ['.case_video_wrapper', '.case_study_sumary_container', '.creative_section_results', '.footer_grid_parent'];
+const triggers = ['.about_section', '.cms_case_child', '.about_us_section', '.contact_us_section'];
 const states = ['default-state', 'second-state', 'third-state', 'last-state'];
 
 triggers.forEach((trigger, index) => {
@@ -111,6 +88,29 @@ triggers.forEach((trigger, index) => {
     }
   });
 });
+
+
+
+// const triggers = ['.case_video_wrapper', '.case_study_sumary_container', '.creative_section_results', '.footer_grid_parent'];
+// const states = ['default-state', 'second-state', 'third-state', 'last-state'];
+
+// triggers.forEach((trigger, index) => {
+//   gsap.timeline({
+//     scrollTrigger: {
+//       trigger: trigger,
+//       start: "top+=300 center",
+//       end: "bottom+=300 center",
+//       onEnter: () => granimInstance.changeState(states[index]),
+//       onLeaveBack: () => {
+//         if (index !== 0) {
+//           const previousIndex = index - 1;
+//           granimInstance.changeState(states[previousIndex]);
+//         }
+//       },
+//       scrub: true
+//     }
+//   });
+// });
 
 
 
@@ -199,6 +199,82 @@ cmsLink.forEach((link) => {
 // const debugObject = {}
 
 
+
+
+
+
+
+
+//CASE STUDIES COLOORRRR
+
+// const caseStudies = document.querySelectorAll('.case_study_cl_item');
+// const gradients = [
+//   [
+//     ['#000000', '#808080'], // black and gray
+//     ['#03c1df', '#FFA500'], // #03c1df and orange
+//     ['#FFA500', '#800080'], // orange and purple
+//     ['#800080', '#FFA500']  // purple and orange
+//   ],
+//   [
+//     ['#000000', '#808080'], // black and gray
+//     ['red', '#0000FF'], // #00063d and blue
+//     ['#FFA500', '#800080'], // orange and purple
+//     ['#800080', '#FFA500']  // purple and orange
+//   ],
+//   [
+//     ['#000000', '#808080'], // black and gray
+//     ['#00063d', 'blue'], // #00063d and blue
+//     ['#FFA500', '#800080'], // orange and purple
+//     ['#800080', '#FFA500']  // purple and orange
+//   ],
+//   [
+//     ['#000000', '#808080'], // black and gray
+//     ['#00063d', '#0000FF'], // #00063d and blue
+//     ['#FFA500', '#800080'], // orange and purple
+//     ['#800080', '#FFA500']  // purple and orange
+//   ],
+//   [
+//     ['#000000', '#808080'], // black and gray
+//     ['#00063d', '#0000FF'], // #00063d and blue
+//     ['#FFA500', '#800080'], // orange and purple
+//     ['#800080', '#FFA500']  // purple and orange
+//   ]
+// ];
+
+// caseStudies.forEach((caseStudy, index) => {
+//   const granimInstance = new Granim({
+//     element: caseStudy.querySelector('#granim-canvas'),
+//     direction: 'diagonal',
+//     isPausedWhenNotInView: true,
+//     states: {
+//       "default-state": { gradients: gradients[index][0] },
+//       "second-state": { gradients: gradients[index][1] },
+//       "third-state": { gradients: gradients[index][2] },
+//       "last-state": { gradients: gradients[index][3] }
+//     }
+//   });
+
+//   const triggers = Array.from(caseStudy.querySelectorAll('.case_video_container, .case_study_sumary_container, .creative_section_results, .footer_grid_parent'));
+//   const states = ['default-state', 'second-state', 'third-state', 'last-state'];
+
+//   triggers.forEach((trigger, triggerIndex) => {
+//     gsap.timeline({
+//       scrollTrigger: {
+//         trigger: trigger,
+//         start: "top+=300 center",
+//         end: "bottom+=300 center",
+//         onEnter: () => granimInstance.changeState(states[triggerIndex]),
+//         onLeaveBack: () => {
+//           if (triggerIndex !== 0) {
+//             const previousIndex = triggerIndex - 1;
+//             granimInstance.changeState(states[previousIndex]);
+//           }
+//         },
+//         scrub: true
+//       }
+//     });
+//   });
+// });
 
 
 
