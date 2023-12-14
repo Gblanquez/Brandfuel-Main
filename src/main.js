@@ -1,25 +1,15 @@
 import './styles/style.css';
-import workRender from './renders/workRender.js';
-import homeRender from './renders/homeRender.js';
-import workTransition from './transitions/workTransition.js'
-import homeTransition from './transitions/homeTransition.js'
-import { Core } from '@unseenco/taxi'
+
 import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import GUI from 'lil-gui'
 import waterVertexShader from './shaders/background/vertex.glsl'
 import waterFragmentShader from './shaders/background/fragment.glsl'
 import logoVertexShader from './shaders/Logo/vertex.glsl'
 import logoFragmentShader from './shaders/Logo/fragment.glsl'
-// import { Swiper } from 'swiper';
-import Swiper from 'swiper/bundle';
-// import 'swiper/css';
 import gsap from "gsap";
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { SimplexNoise } from 'three/examples/jsm/math/SimplexNoise.js';
-import { Noise } from 'noisejs';
-import Lenis from '@studio-freight/lenis'
 import Granim from 'granim'
+import SplitType from 'split-type'
 
 gsap.registerPlugin(ScrollTrigger);
 //SWIPER
@@ -85,8 +75,8 @@ triggers.forEach((trigger, index) => {
   gsap.timeline({
     scrollTrigger: {
       trigger: trigger,
-      start: "top+=500 center",
-      end: "bottom+=500 center",
+      start: "top+=300 center",
+      end: "bottom+=300 center",
       onEnter: () => granimInstance.changeState(states[index]),
       onLeaveBack: () => {
         if (index !== 0) {
@@ -100,11 +90,91 @@ triggers.forEach((trigger, index) => {
 });
 
 
+
+//Case Studies Animations
+
+
+const cmsLink = document.querySelectorAll('[data-a="cms-link"]');
+const cmsWrap = document.querySelectorAll('[data-a="cms-v-wrap"]');
+const cmsVideo = document.querySelectorAll('[data-a="cms-v"]');
+const cmsH2 = document.querySelectorAll('[data-a="cms-h2"]');
+const cmsH3 = document.querySelectorAll('[data-a="cms-h3"]');
+const cmsH4 = document.querySelectorAll('[data-a="cms-h4"]');
+cmsLink.forEach((link) => {
+   const cmsWrap = link.querySelector('[data-a="cms-v-wrap"]');
+   const cmsVideo = link.querySelector('[data-a="cms-v"]');
+   const cmsH2 = link.querySelector('[data-a="cms-h2"]');
+   const cmsH3 = link.querySelector('[data-a="cms-h3"]');
+   const cmsH4 = link.querySelector('[data-a="cms-h4"]');
+
+   // Split the text into characters
+   const cH2 = new SplitType(cmsH2, { types: 'chars' });
+   const cH3 = new SplitType(cmsH3, { types: 'chars' });
+   const cH4 = new SplitType(cmsH4, { types: 'chars' });
+
+   const cmsTl = gsap.timeline({
+       scrollTrigger:{
+           trigger: link,
+           start: 'top bottom',
+          //  onEnter: () => cmsTl.restart(),
+           // onEnterBack: () => cmsTl.restart(),
+           // onLeave: () => cmsTl.restart(),
+       }
+   });
+
+   cmsTl.from(cmsWrap, {
+       height: '0%',
+       duration: 1.6,
+       ease: 'back.inOut(1)',
+   }, 0.1);
+
+   cmsTl.from(cmsVideo, {
+       y: '-120%',
+       scale: 1.4,
+       ease: 'back.inOut(1))',
+       duration: 1.2
+   }, 0.1);
+
+   // Animate the characters
+   cmsTl.from(cH2.chars, {
+       y: '120%',
+       opacity: 0,
+       stagger: 0.02,
+       ease: 'expo.out',
+       duration: 1.4
+   }, 0.1);
+
+   cmsTl.from(cH3.chars, {
+       y: '120%',
+       opacity: 0,
+       stagger: 0.02,
+       ease: 'expo.out',
+       duration: 1.4
+   }, 0.1);
+
+   cmsTl.from(cH4.chars, {
+       y: '120%',
+       opacity: 0,
+       stagger: 0.02,
+       ease: 'expo.out',
+       duration: 1.4
+   }, 0.1);
+
+   gsap.to(cmsVideo, {
+    scale: 1.1, // scale to 200%
+    scrollTrigger: {
+        trigger: cmsVideo,
+        start: 'top bottom', // start when top of cmsVideo hits bottom of viewport
+        end: 'bottom top', // end when bottom of cmsVideo hits top of viewport
+        scrub: true
+    }
+});
+});
+
 // Debug
 // const gui = new GUI({ width: 340 })
 // const debugObject = {}
 
-let bNoise = new Noise(Math.random());
 
 
 
@@ -155,8 +225,6 @@ scene.fog = new THREE.FogExp2( '#FF16A4', 0.1 );
 
 //Group
 
-
-const noise = new SimplexNoise();
 
 
 const cameraGroup = new THREE.Group()
@@ -305,26 +373,6 @@ const gradientAngles = [0, 45, 90, 135];
 
 // gui.add(waterMaterial.uniforms.uColorOffset, 'value').min(0).max(1).step(0.001).name('uColorOffset')
 // gui.add(waterMaterial.uniforms.uColorMultiplier, 'value').min(0).max(10).step(0.001).name('uColorMultiplier')
-
-const wNoise = new SimplexNoise();
-function getRadius(angle, time) {
-    const noiseScale = 0.2; // Adjust this value to change the amount of variation
-    const noiseSpeed = 0.01; // Adjust this value to change the speed of variation
-    const baseRadius = circleCircumference / (2 * Math.PI) * 0.6;
-    const noiseValue = noise.noise2D(angle * noiseSpeed, time);
-    let radius = baseRadius * (1 + noiseScale * noiseValue);
-  
-    // Define the minimum and maximum radius
-    let minRadius = baseRadius * 0.1; // Adjust this value to change the minimum radius
-    let maxRadius = baseRadius * 1.3; // Adjust this value to change the maximum radius
-  
-    // Clamp the radius to the minimum and maximum values
-    radius = Math.max(radius, minRadius);
-    radius = Math.min(radius, maxRadius);
-  
-    return radius;
-  }
-
 
   //Animation of gradient
 
@@ -627,33 +675,33 @@ const tick = () =>
       // z position remains the same
     }
   
-// Update the cube positions
-for (let i = 0; i < geometry.attributes.position.count; i++) {
-    const angle = (i / numCubes) * Math.PI * 2;
-    const displacement = bNoise.perlin2(angle, elapsedTime) * 0.1;
-    cubeGroup1.children[i].position.x = positionsC[i * 3] + displacement;
-    cubeGroup1.children[i].position.y = positionsC[i * 3 + 1] + displacement;
-    // z position remains the same
-  }
+// // Update the cube positions
+// for (let i = 0; i < geometry.attributes.position.count; i++) {
+//     const angle = (i / numCubes) * Math.PI * 2;
+//     const displacement = bNoise.perlin2(angle, elapsedTime) * 0.1;
+//     cubeGroup1.children[i].position.x = positionsC[i * 3] + displacement;
+//     cubeGroup1.children[i].position.y = positionsC[i * 3 + 1] + displacement;
+//     // z position remains the same
+//   }
 
-  cubeGroup1.children.forEach(cube => {
-    cube.scale.x = cube.scaleFactor;
-  });
+//   cubeGroup1.children.forEach(cube => {
+//     cube.scale.x = cube.scaleFactor;
+//   });
 
-    const pX = cursor.x
-    const pY = - cursor.y 
+//     const pX = cursor.x
+//     const pY = - cursor.y 
 
-    cameraGroup.position.x += (pX  - cameraGroup.position.x) * 2 * deltaTime
-    cameraGroup.position.y += (pY - cameraGroup.position.y) * 2 * deltaTime
+//     cameraGroup.position.x += (pX  - cameraGroup.position.x) * 2 * deltaTime
+//     cameraGroup.position.y += (pY - cameraGroup.position.y) * 2 * deltaTime
 
-    const positionsArray = particlesGeometry.attributes.position.array;
-    for (let i = 0; i < particlesCount; i++) {
-        positionsArray[i * 3 + 2] -= speeds[i];  // Move the particle towards the camera
-        if (positionsArray[i * 3 + 2] < -10) {  // If the particle has moved past the camera
-            positionsArray[i * 3 + 2] = 10;  // Reset the particle's position to the back
-        }
-    }
-    particlesGeometry.attributes.position.needsUpdate = true;  // Tell Three.js to update the particles
+//     const positionsArray = particlesGeometry.attributes.position.array;
+//     for (let i = 0; i < particlesCount; i++) {
+//         positionsArray[i * 3 + 2] -= speeds[i];  // Move the particle towards the camera
+//         if (positionsArray[i * 3 + 2] < -10) {  // If the particle has moved past the camera
+//             positionsArray[i * 3 + 2] = 10;  // Reset the particle's position to the back
+//         }
+//     }
+//     particlesGeometry.attributes.position.needsUpdate = true;  // Tell Three.js to update the particles
 
     // Update controls
     // controls.update()
