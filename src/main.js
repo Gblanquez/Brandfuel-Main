@@ -39,6 +39,66 @@ gsap.registerPlugin(ScrollTrigger);
 
 
 
+// gsap.to("cms_case_child", {
+//   scrollTrigger: {
+//     trigger: ".cms_case_study",
+//     start: "top top", // when the top of the trigger hits the top of the viewport
+//     end: "+=4000", // end after scrolling 500px beyond the start
+//     pin: true, // pin the trigger element while active
+//     scrub: true, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
+//   }
+// });
+
+
+var granimInstance = new Granim({
+  element: '#granim-canvas',
+  direction: 'diagonal',
+  isPausedWhenNotInView: true,
+  states : {
+      "default-state": {
+          gradients: [
+              ['#000000', '#000000'], // black and gray
+          ]
+      },
+      "second-state": {
+          gradients: [
+              ['#000000', '#00464B'], // black and green
+          ]
+      },
+      "third-state": {
+          gradients: [
+              ['#5B267E', '#BD4511'], // purple and orange
+          ]
+      },
+      "last-state": {
+          gradients: [
+              ['#BD4511', '#5B267E'], // orange and purple
+          ]
+      }
+  }
+});
+
+const triggers = ['.about_section', '.cms_case_child', '.about_us_section', '.contact_us_section'];
+const states = ['default-state', 'second-state', 'third-state', 'last-state'];
+
+triggers.forEach((trigger, index) => {
+  gsap.timeline({
+    scrollTrigger: {
+      trigger: trigger,
+      start: "top+=500 center",
+      end: "bottom+=500 center",
+      onEnter: () => granimInstance.changeState(states[index]),
+      onLeaveBack: () => {
+        if (index !== 0) {
+          const previousIndex = index - 1;
+          granimInstance.changeState(states[previousIndex]);
+        }
+      },
+      scrub: true
+    }
+  });
+});
+
 
 // Debug
 // const gui = new GUI({ width: 340 })
@@ -85,11 +145,45 @@ window.addEventListener('resize', () =>
 
 
 scene.fog = new THREE.FogExp2( '#FF16A4', 0.1 );
+
+
+
+/**
+ * Camera
+ */
+
+
+//Group
+
+
+const noise = new SimplexNoise();
+
+
+const cameraGroup = new THREE.Group()
+
+
+// Base camera
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+camera.position.set(0, 0, 3)
+cameraGroup.add(camera)
+scene.add(cameraGroup)
+// Controls
+// const controls = new OrbitControls(camera, canvas)
+// controls.enableDamping = true
+
 /**
  * Water
  */
+
+let aspectRatio2 = sizes.width / sizes.height;
+// Calculate the visible height at the z position of the plane
+let distance = camera.position.z;
+let visibleHeight = 2 * Math.tan((camera.fov * Math.PI / 180) / 2) * distance;
+
+// Calculate the visible width using the aspect ratio
+let visibleWidth = visibleHeight * camera.aspect;
 // Geometry
-const waterGeometry = new THREE.PlaneGeometry( 50, 50, 200, 200 );
+const waterGeometry = new THREE.PlaneGeometry( 5, 5, 30, 30 );
 
 
 
@@ -105,17 +199,28 @@ const waterMaterial = new THREE.ShaderMaterial({
     {
         uTime: { value: 0 },
         uDisplacementStrength: { value: 0.004 },
-        uColor1: { value: new THREE.Color('green') }, // Add this line for uColor1 uniform
-        uColor2: { value: new THREE.Color('red') }, // Add this line for uColor2 uniform
-        uColor3: { value: new THREE.Color('#2F5ECA') }, // Add this line for uColor3 uniform
-        uColor4: { value: new THREE.Color('#00383C') }, // Add this line for uColor4 uniform
-        uColor5: { value: new THREE.Color('purple') }, // Add this line for uColor5 uniform
+        uColor1: { value: new THREE.Color('red') },
+        uColor2: { value: new THREE.Color('gray') }, 
+        uColor3: { value: new THREE.Color('#2F5ECA') }, 
+        uColor4: { value: new THREE.Color('#00383C') }, 
+        uColor5: { value: new THREE.Color('purple') }, 
         screenWidth: { value: window.innerWidth },
         screenHeight: { value: window.innerHeight },
+
+
+        uPreviousColor1: { value: new THREE.Color('red') },
+        uPreviousColor2: { value: new THREE.Color('green') },
+        uPreviousGradientAngle: { value: 0.0 },
+        uGradientAngle: { value: 0.0 },
+        uTransition: { value: 0.0 },
+
+        uStrength: {value: 0 },
         
         uBigWavesElevation: { value: 0.2 },
         uBigWavesFrequency: { value: new THREE.Vector2(0.511, 0.433) },
         uBigWavesSpeed: { value: 0.328 },
+
+    
 
         uSmallWavesElevation: { value: 0.043 },
         uSmallWavesFrequency: { value: 1.764 },
@@ -132,7 +237,7 @@ const waterMaterial = new THREE.ShaderMaterial({
         uGradientPosition2: { value: 2.0 }, // position of the second color stop
 
 
-        uGradientAngle: { value: Math.PI / 4 * 0.3 },
+        uGradientAngle: { value: 220},
 
 
         uDepthColor: { value: new THREE.Color('green') },
@@ -142,72 +247,49 @@ const waterMaterial = new THREE.ShaderMaterial({
     }
 })
 
+waterMaterial.side = THREE.DoubleSide
 // Mesh
 const bg = new THREE.Mesh(waterGeometry, waterMaterial)
 // bg.rotation.z =  - Math.PI * 0.5 
 
 bgGroup.add(bg);
-bgGroup.position.z = -4
+bgGroup.position.z = -1
 // bgGroup.rotation.x = - Math.PI * 0.3
 
 // bg.scale.set(sizes.width, sizes.height, 1);
-scene.add(bgGroup)
-
+// scene.add(bgGroup)
 
 
 // Define your color pairs
 const colorPairs = [
-  { color1: '#000102', color2: '#2C2135', color3: '#00464B' },
-  { color1: '#2C2135', color2: '#BD4511', color3: '#00464B' },
-  { color1: '#5B267E', color2: '#BD4511', color3: '#BD4511' }
+  { color1: 'black', color2: 'gray' },
+  { color1: 'black', color2: 'green' },
+  { color1: 'orange', color2: 'purple' },
+  { color1: 'purple', color2: 'orange' }
 ];
 
+// Define your gradient angles
+const gradientAngles = [0, 45, 90, 135];
+
 // Define your triggers
-const triggers = ['.cms_case_study', '.about_us_section', '.contact_us_section'];
+// const triggers = ['.about_section', '.cms_case_child', '.about_us_section', '.contact_us_section'];
 
-// Create a ScrollTrigger for each section
-triggers.forEach((trigger, index) => {
-  let colors = colorPairs[index];
+// triggers.forEach((trigger, index) => {
+//   const colorPair = colorPairs[index];
+//   const timeline = gsap.timeline({
+//     scrollTrigger: {
+//       trigger: trigger,
+//       start: 'top center',
+//       end: 'bottom center',
+//       scrub: true
+//     }
+//   });
 
-  gsap.to(waterMaterial.uniforms.uGradientColor1.value, {
-    scrollTrigger: {
-      trigger: trigger,
-      start: 'top bottom',
-      end: 'bottom bottom',
-      scrub: true,
-    },
-    onUpdate: function() {
-      waterMaterial.uniforms.uGradientColor1.value.set(colors.color1);
-      waterMaterial.uniforms.uGradientColor1.value.needsUpdate = true;
-    }
-  });
-
-  gsap.to(waterMaterial.uniforms.uGradientColor2.value, {
-    scrollTrigger: {
-      trigger: trigger,
-      start: 'top bottom',
-      end: 'bottom bottom',
-      scrub: true,
-    },
-    onUpdate: function() {
-      waterMaterial.uniforms.uGradientColor2.value.set(colors.color2);
-      waterMaterial.uniforms.uGradientColor2.value.needsUpdate = true;
-    }
-  });
-
-  gsap.to(waterMaterial.uniforms.uGradientColor3.value, {
-    scrollTrigger: {
-      trigger: trigger,
-      start: 'top bottom',
-      end: 'bottom bottom',
-      scrub: true,
-    },
-    onUpdate: function() {
-      waterMaterial.uniforms.uGradientColor3.value.set(colors.color3);
-      waterMaterial.uniforms.uGradientColor3.value.needsUpdate = true;
-    }
-  });
-});
+//   timeline
+//     .to(waterMaterial.uniforms.uColor1.value, { r: colorPair.color1.r, g: colorPair.color1.g, b: colorPair.color1.b }, 0)
+//     .to(waterMaterial.uniforms.uColor2.value, { r: colorPair.color2.r, g: colorPair.color2.g, b: colorPair.color2.b }, 0)
+//     .to(waterMaterial.uniforms.uGradientAngle, { value: (index * 90) % 360 }, 0);
+// });
 
 
 // gui.add(waterMaterial.uniforms.uBigWavesElevation, 'value').min(0).max(1).step(0.001).name('uBigWavesElevation')
@@ -339,9 +421,9 @@ function getRadius(angle, time) {
 // cubeGroup2.rotation.x = Math.PI / 2;
 // cubeGroup2.position.z = 2; // Change the position for the second circle
 
-const pointLight = new THREE.PointLight(0xffffff, 30, 100); // white color
-pointLight.position.set(0, 1, 0); // position it above the cube group
-scene.add(pointLight);
+// const pointLight = new THREE.PointLight(0xffffff, 30, 100); // white color
+// pointLight.position.set(0, 1, 0); // position it above the cube group
+// scene.add(pointLight);
 
 const numCubes = 100; // Number of cubes
 const cubeSize = 0.05;
@@ -408,8 +490,8 @@ for (let i = 0; i < geometry.attributes.position.count; i++) {
 
 // scene.add(cubeGroup1);
 
-const ambientLight = new THREE.AmbientLight(0xffffff, 1); // white color, intensity
-scene.add(ambientLight);
+// const ambientLight = new THREE.AmbientLight(0xffffff, 1); // white color, intensity
+// scene.add(ambientLight);
 
 
 
@@ -437,7 +519,7 @@ window.addEventListener('mousemove', (event) => {
 
 //Particles
 
-const particlesCount = 2000
+const particlesCount = 800
 const positions = new Float32Array(particlesCount * 3)
 
 for (let i = 0; i < particlesCount; i++)
@@ -470,28 +552,10 @@ for (let i = 0; i < particlesCount; i++) {
  * 
 
 
-/**
- * Camera
- */
 
 
-//Group
 
 
-const noise = new SimplexNoise();
-
-
-const cameraGroup = new THREE.Group()
-
-
-// Base camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.set(0, 0, 8)
-cameraGroup.add(camera)
-scene.add(cameraGroup)
-// Controls
-// const controls = new OrbitControls(camera, canvas)
-// controls.enableDamping = true
 
 /**
  * Renderer

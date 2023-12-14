@@ -1,28 +1,19 @@
-uniform vec3 uDepthColor;
-uniform vec3 uSurfaceColor;
-uniform vec3 uGradientColor1;
-uniform vec3 uGradientColor2;
-uniform vec3 uGradientColor3;
-uniform float uGradientPosition1;
-uniform float uGradientPosition2;
-uniform float uColorOffset;
-uniform float uColorMultiplier;
-uniform float screenHeight;
-uniform float screenWidth;
+varying vec2 vUv;
+uniform vec3 uColor1;
+uniform vec3 uColor2;
+uniform vec3 uPreviousColor1;
+uniform vec3 uPreviousColor2;
 uniform float uGradientAngle;
-
-varying float vElevation;
+uniform float uPreviousGradientAngle;
+uniform float uTransition;
 
 void main()
 {
-    // Calculate the position based on the angle
-    float pos = gl_FragCoord.x * cos(uGradientAngle) + gl_FragCoord.y * sin(uGradientAngle);
 
-    // Normalize the position
-    float normalizedPos = pos / (screenWidth * cos(uGradientAngle) + screenHeight * sin(uGradientAngle));
+    float angle = radians(uGradientAngle);
+    mat2 rotationMatrix = mat2(cos(angle), -sin(angle), sin(angle), cos(angle));
+    vec2 rotatedUv = rotationMatrix * (vUv - 0.5) + 0.5;
 
-    // Calculate the gradient color
-    vec3 color = mix(uGradientColor1, uGradientColor2, normalizedPos);
-
+    vec3 color = mix(uColor1, uColor2, rotatedUv.x * rotatedUv.y);
     gl_FragColor = vec4(color, 1.0);
 }

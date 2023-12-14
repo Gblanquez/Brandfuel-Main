@@ -37,30 +37,6 @@ html.lenis {
     opacity: 30%;
   } */
 
-  .case_study_cl_item {
-    grid-column: span 2; /* by default, items take 2 columns */
-}
-
-.case_study_cl_item:nth-child(n+4) {
-    grid-column: span 1; /* starting from the 4th item, items take 1 column */
-}
-
-
-.case_study_cl_item:nth-child(1) {
-  margin-left: -15vw;
-}
-
-
-
-.case_study_cl_item:nth-child(2) .cms_link{
-  justify-self: end;
-  padding-right: rem;
-}
-
-.case_study_cl_item:nth-child(3) {
-  margin-left: -15vw;
-}
-
 /* .load_parent {
   display: flex;
 } */
@@ -76,6 +52,3 @@ body {
   scrollbar-width: none;  /* Firefox */
 }
 
-.cms_lottie_wrap {
-  transform: scale(1.5); /* 150% size */
-}
