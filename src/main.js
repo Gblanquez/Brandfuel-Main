@@ -694,14 +694,14 @@ const tick = () =>
 //     cameraGroup.position.x += (pX  - cameraGroup.position.x) * 2 * deltaTime
 //     cameraGroup.position.y += (pY - cameraGroup.position.y) * 2 * deltaTime
 
-//     const positionsArray = particlesGeometry.attributes.position.array;
-//     for (let i = 0; i < particlesCount; i++) {
-//         positionsArray[i * 3 + 2] -= speeds[i];  // Move the particle towards the camera
-//         if (positionsArray[i * 3 + 2] < -10) {  // If the particle has moved past the camera
-//             positionsArray[i * 3 + 2] = 10;  // Reset the particle's position to the back
-//         }
-//     }
-//     particlesGeometry.attributes.position.needsUpdate = true;  // Tell Three.js to update the particles
+    const positionsArray = particlesGeometry.attributes.position.array;
+    for (let i = 0; i < particlesCount; i++) {
+        positionsArray[i * 3 + 2] -= speeds[i];  // Move the particle towards the camera
+        if (positionsArray[i * 3 + 2] < -10) {  // If the particle has moved past the camera
+            positionsArray[i * 3 + 2] = 10;  // Reset the particle's position to the back
+        }
+    }
+    particlesGeometry.attributes.position.needsUpdate = true;  // Tell Three.js to update the particles
 
     // Update controls
     // controls.update()
