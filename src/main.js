@@ -1,6 +1,6 @@
 import './styles/style.css';
-
 import * as THREE from 'three'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import GUI from 'lil-gui'
 import waterVertexShader from './shaders/background/vertex.glsl'
 import waterFragmentShader from './shaders/background/fragment.glsl'
@@ -10,6 +10,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Granim from 'granim'
 import SplitType from 'split-type'
+import lottie from 'lottie-web';
+import Player from '@vimeo/player';
 
 gsap.registerPlugin(ScrollTrigger);
 //SWIPER
@@ -29,6 +31,64 @@ gsap.registerPlugin(ScrollTrigger);
 
 
 
+// Select the text element and split it into characters
+// const textElement = document.querySelector('.load-h1');
+// const split = new SplitType(textElement, { types: 'chars' });
+
+// // Set the initial position and opacity of the text
+// gsap.set(split.chars, { y: '120%', opacity: 0});
+
+// // Create a timeline for the animations
+// const timeline = gsap.timeline({
+//   onComplete: () => {
+//     // Load the Lottie animation after the text animation is complete
+//     let animation = lottie.loadAnimation({
+//       container: document.querySelector('.lottie_intro'),
+//       renderer: 'svg',
+//       loop: true,
+//       autoplay: true,
+//       path: 'https://uploads-ssl.webflow.com/654ffd6810a99fe2eda01c9b/65735262e47f7cb0e69a0531_ShowreelLogo.json'
+//     });
+
+//     // Wait for 80% of the animation to finish
+//     animation.addEventListener('enterFrame', function(e) {
+//       if (e.currentTime / e.totalTime >= 0.6) {
+//         // Animate the text out
+//         gsap.to(split.chars, { y: '-120%', opacity: 0, stagger: 0.02, duration: 1.2, ease: 'expo.out'});
+//         // document.querySelector('.bg_main').style.display = 'flex';
+//       }
+//     });
+
+//     // Wait for 1 loop of the animation to finish
+//     new Promise(resolve => {
+//       animation.addEventListener('loopComplete', resolve);
+//     }).then(() => {
+//       // After the loop is complete, stop the animation
+//       animation.stop();
+//       document.querySelector('.load_parent').style.backgroundColor = 'transparent';
+//       document.querySelector('.load_parent').style.display = 'none';
+//       document.querySelector('.bg_main').style.display = 'flex';
+
+//       // Create a new timeline to animate the text out
+//       const textOutTimeline = gsap.timeline({
+//         onComplete: () => {
+//           // After the text animation is complete, hide the Lottie animation and display the background video
+//           // document.querySelector('.load_parent').style.display = 'none';
+//           // document.querySelector('.bg_main').style.display = 'flex';
+//         }
+//       });
+
+//       // Add the text out animation to the new timeline
+//       textOutTimeline.to(split.chars, { y: '-120%', opacity: 0, stagger: 0.03, duration: 1, ease: 'expo.out' });
+//     });
+//   }
+// });
+
+// // Add the text animation to the timeline
+// timeline.to(split.chars, { y: '0%', opacity: 1, stagger: 0.03, duration: 1.2, ease: 'expo.out' });
+
+
+
 // gsap.to("cms_case_child", {
 //   scrollTrigger: {
 //     trigger: ".cms_case_study",
@@ -40,54 +100,54 @@ gsap.registerPlugin(ScrollTrigger);
 // });
 
 
-var granimInstance = new Granim({
-  element: '#granim-canvas',
-  direction: 'diagonal',
-  isPausedWhenNotInView: true,
-  states : {
-      "default-state": {
-          gradients: [
-              ['#000000', '#000000'], // black and gray
-          ]
-      },
-      "second-state": {
-          gradients: [
-              ['#000000', '#00464B'], // black and green
-          ]
-      },
-      "third-state": {
-          gradients: [
-              ['#5B267E', '#BD4511'], // purple and orange
-          ]
-      },
-      "last-state": {
-          gradients: [
-              ['#BD4511', '#5B267E'], // orange and purple
-          ]
-      }
-  }
-});
+// var granimInstance = new Granim({
+//   element: '#granim-canvas',
+//   direction: 'diagonal',
+//   isPausedWhenNotInView: true,
+//   states : {
+//       "default-state": {
+//           gradients: [
+//               ['#000000', '#000000'], // black and gray
+//           ]
+//       },
+//       "second-state": {
+//           gradients: [
+//               ['#000000', '#00464B'], // black and green
+//           ]
+//       },
+//       "third-state": {
+//           gradients: [
+//               ['#5B267E', '#BD4511'], // purple and orange
+//           ]
+//       },
+//       "last-state": {
+//           gradients: [
+//               ['#BD4511', '#5B267E'], // orange and purple
+//           ]
+//       }
+//   }
+// });
 
-const triggers = ['.about_section', '.cms_case_child', '.about_us_section', '.contact_us_section'];
-const states = ['default-state', 'second-state', 'third-state', 'last-state'];
+// const triggers = ['.about_section', '.cms_case_child', '.about_us_section', '.contact_us_section'];
+// const states = ['default-state', 'second-state', 'third-state', 'last-state'];
 
-triggers.forEach((trigger, index) => {
-  gsap.timeline({
-    scrollTrigger: {
-      trigger: trigger,
-      start: "top+=300 center",
-      end: "bottom+=300 center",
-      onEnter: () => granimInstance.changeState(states[index]),
-      onLeaveBack: () => {
-        if (index !== 0) {
-          const previousIndex = index - 1;
-          granimInstance.changeState(states[previousIndex]);
-        }
-      },
-      scrub: true
-    }
-  });
-});
+// triggers.forEach((trigger, index) => {
+//   gsap.timeline({
+//     scrollTrigger: {
+//       trigger: trigger,
+//       start: "top+=300 center",
+//       end: "bottom+=300 center",
+//       onEnter: () => granimInstance.changeState(states[index]),
+//       onLeaveBack: () => {
+//         if (index !== 0) {
+//           const previousIndex = index - 1;
+//           granimInstance.changeState(states[previousIndex]);
+//         }
+//       },
+//       scrub: true
+//     }
+//   });
+// });
 
 
 
@@ -117,82 +177,82 @@ triggers.forEach((trigger, index) => {
 //Case Studies Animations
 
 
-const cmsLink = document.querySelectorAll('[data-a="cms-link"]');
-const cmsWrap = document.querySelectorAll('[data-a="cms-v-wrap"]');
-const cmsVideo = document.querySelectorAll('[data-a="cms-v"]');
-const cmsH2 = document.querySelectorAll('[data-a="cms-h2"]');
-const cmsH3 = document.querySelectorAll('[data-a="cms-h3"]');
-const cmsH4 = document.querySelectorAll('[data-a="cms-h4"]');
-cmsLink.forEach((link) => {
-   const cmsWrap = link.querySelector('[data-a="cms-v-wrap"]');
-   const cmsVideo = link.querySelector('[data-a="cms-v"]');
-   const cmsH2 = link.querySelector('[data-a="cms-h2"]');
-   const cmsH3 = link.querySelector('[data-a="cms-h3"]');
-   const cmsH4 = link.querySelector('[data-a="cms-h4"]');
+// const cmsLink = document.querySelectorAll('[data-a="cms-link"]');
+// const cmsWrap = document.querySelectorAll('[data-a="cms-v-wrap"]');
+// const cmsVideo = document.querySelectorAll('[data-a="cms-v"]');
+// const cmsH2 = document.querySelectorAll('[data-a="cms-h2"]');
+// const cmsH3 = document.querySelectorAll('[data-a="cms-h3"]');
+// const cmsH4 = document.querySelectorAll('[data-a="cms-h4"]');
+// cmsLink.forEach((link) => {
+//    const cmsWrap = link.querySelector('[data-a="cms-v-wrap"]');
+//    const cmsVideo = link.querySelector('[data-a="cms-v"]');
+//    const cmsH2 = link.querySelector('[data-a="cms-h2"]');
+//    const cmsH3 = link.querySelector('[data-a="cms-h3"]');
+//    const cmsH4 = link.querySelector('[data-a="cms-h4"]');
 
-   // Split the text into characters
-   const cH2 = new SplitType(cmsH2, { types: 'chars' });
-   const cH3 = new SplitType(cmsH3, { types: 'chars' });
-   const cH4 = new SplitType(cmsH4, { types: 'chars' });
+//    // Split the text into characters
+//    const cH2 = new SplitType(cmsH2, { types: 'chars' });
+//    const cH3 = new SplitType(cmsH3, { types: 'chars' });
+//    const cH4 = new SplitType(cmsH4, { types: 'chars' });
 
-   const cmsTl = gsap.timeline({
-       scrollTrigger:{
-           trigger: link,
-           start: 'top bottom',
-          //  onEnter: () => cmsTl.restart(),
-           // onEnterBack: () => cmsTl.restart(),
-           // onLeave: () => cmsTl.restart(),
-       }
-   });
+//    const cmsTl = gsap.timeline({
+//        scrollTrigger:{
+//            trigger: link,
+//            start: 'top bottom',
+//           //  onEnter: () => cmsTl.restart(),
+//            // onEnterBack: () => cmsTl.restart(),
+//            // onLeave: () => cmsTl.restart(),
+//        }
+//    });
 
-   cmsTl.from(cmsWrap, {
-       height: '0%',
-       duration: 1.6,
-       ease: 'back.inOut(1)',
-   }, 0.1);
+//    cmsTl.from(cmsWrap, {
+//        height: '0%',
+//        duration: 1.6,
+//        ease: 'back.inOut(1)',
+//    }, 0.1);
 
-   cmsTl.from(cmsVideo, {
-       y: '-120%',
-       scale: 1.4,
-       ease: 'back.inOut(1))',
-       duration: 1.2
-   }, 0.1);
+//    cmsTl.from(cmsVideo, {
+//        y: '-120%',
+//        scale: 1.4,
+//        ease: 'back.inOut(1))',
+//        duration: 1.2
+//    }, 0.1);
 
-   // Animate the characters
-   cmsTl.from(cH2.chars, {
-       y: '120%',
-       opacity: 0,
-       stagger: 0.02,
-       ease: 'expo.out',
-       duration: 1.4
-   }, 0.1);
+//    // Animate the characters
+//    cmsTl.from(cH2.chars, {
+//        y: '120%',
+//        opacity: 0,
+//        stagger: 0.02,
+//        ease: 'expo.out',
+//        duration: 1.4
+//    }, 0.1);
 
-   cmsTl.from(cH3.chars, {
-       y: '120%',
-       opacity: 0,
-       stagger: 0.02,
-       ease: 'expo.out',
-       duration: 1.4
-   }, 0.1);
+//    cmsTl.from(cH3.chars, {
+//        y: '120%',
+//        opacity: 0,
+//        stagger: 0.02,
+//        ease: 'expo.out',
+//        duration: 1.4
+//    }, 0.1);
 
-   cmsTl.from(cH4.chars, {
-       y: '120%',
-       opacity: 0,
-       stagger: 0.02,
-       ease: 'expo.out',
-       duration: 1.4
-   }, 0.1);
+//    cmsTl.from(cH4.chars, {
+//        y: '120%',
+//        opacity: 0,
+//        stagger: 0.02,
+//        ease: 'expo.out',
+//        duration: 1.4
+//    }, 0.1);
 
-   gsap.to(cmsVideo, {
-    scale: 1.1, // scale to 200%
-    scrollTrigger: {
-        trigger: cmsVideo,
-        start: 'top bottom', // start when top of cmsVideo hits bottom of viewport
-        end: 'bottom top', // end when bottom of cmsVideo hits top of viewport
-        scrub: true
-    }
-});
-});
+//    gsap.to(cmsVideo, {
+//     scale: 1.1, // scale to 200%
+//     scrollTrigger: {
+//         trigger: cmsVideo,
+//         start: 'top bottom', // start when top of cmsVideo hits bottom of viewport
+//         end: 'bottom top', // end when bottom of cmsVideo hits top of viewport
+//         scrub: true
+//     }
+// });
+// });
 
 // Debug
 // const gui = new GUI({ width: 340 })
@@ -279,6 +339,11 @@ cmsLink.forEach((link) => {
 
 
 
+
+
+
+
+
 /**
  * Base
  */
@@ -335,8 +400,8 @@ camera.position.set(0, 0, 3)
 cameraGroup.add(camera)
 scene.add(cameraGroup)
 // Controls
-// const controls = new OrbitControls(camera, canvas)
-// controls.enableDamping = true
+const controls = new OrbitControls(camera, canvas)
+controls.enableDamping = true
 
 /**
  * Water
@@ -787,11 +852,11 @@ const tick = () =>
 //     cube.scale.x = cube.scaleFactor;
 //   });
 
-//     const pX = cursor.x
-//     const pY = - cursor.y 
+    const pX = cursor.x
+    const pY = - cursor.y 
 
-//     cameraGroup.position.x += (pX  - cameraGroup.position.x) * 2 * deltaTime
-//     cameraGroup.position.y += (pY - cameraGroup.position.y) * 2 * deltaTime
+    cameraGroup.position.x += (pX  - cameraGroup.position.x) * 2 * deltaTime
+    cameraGroup.position.y += (pY - cameraGroup.position.y) * 2 * deltaTime
 
     const positionsArray = particlesGeometry.attributes.position.array;
     for (let i = 0; i < particlesCount; i++) {
@@ -803,7 +868,7 @@ const tick = () =>
     particlesGeometry.attributes.position.needsUpdate = true;  // Tell Three.js to update the particles
 
     // Update controls
-    // controls.update()
+    controls.update()
 
     // Render
     renderer.render(scene, camera)

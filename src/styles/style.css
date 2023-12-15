@@ -52,3 +52,6 @@ body {
   scrollbar-width: none;  /* Firefox */
 }
 
+/* .load_parent {
+  display: flex;
+} */
