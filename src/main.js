@@ -14,6 +14,72 @@ import lottie from 'lottie-web';
 import Player from '@vimeo/player';
 
 gsap.registerPlugin(ScrollTrigger);
+
+
+const menuLines = document.querySelectorAll('.mobile_item_line')
+const menuText = document.querySelectorAll('.mobile_textspan')
+const mobileMenuWrap = document.querySelector('.navbar_mobile_parent')
+const bgOne = document.querySelector('.menu_bg_one')
+const bgTwo = document.querySelector('.menu_bg_two')
+const mobileTrigger = document.querySelector('.navbar_mobile_wrapper')
+
+const menuTexts = new SplitType(menuText, { types: 'words, chars, lines' });
+
+
+let navTl = gsap.timeline({ paused: true });
+
+
+navTl.to(mobileMenuWrap,{
+    display: 'flex',
+    duration: 0,
+    ease: 'expo.out'
+
+}, '0'),
+
+navTl.to(bgOne,{
+    height: '100%',
+    ease: 'expo.out',
+    duration: 1.6
+},  '0.2'),
+
+navTl.to(bgTwo,{
+    height: '100%',
+    ease: 'expo.out',
+    duration: 1.6
+},  '0.3'),
+
+navTl.from(menuLines,{
+    width: '0%',
+    ease: 'expo.out',
+    duration: 1.1,
+    stagger: {
+        each: 0.03
+    }
+}, '0.4'),
+
+navTl.from(menuTexts.chars,{
+    y: '120%',
+    opacity: 0,
+    duration: 1.2,
+    ease: 'expo.out',
+    stagger: {
+        each: 0.02
+    }
+}, '0.5')
+
+
+
+navTl.reverse();
+
+mobileTrigger.addEventListener("click", function () {
+  navTl.reversed(!navTl.reversed());
+});
+
+
+
+
+
+
 //SWIPER
 
 // const taxi = new Core({
